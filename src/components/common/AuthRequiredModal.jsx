@@ -70,7 +70,7 @@ const AuthRequiredModal = () => {
           <div className="w-24 h-24 mx-auto mb-4 bg-primary-100 rounded-full flex items-center justify-center border-2 border-primary-300 shadow-inner">
             <img
               src="/logo.png"
-              alt="Chuối Ơi Mascot"
+              alt="BANANA GO Mascot"
               className="w-16 h-16 object-contain animate-bounce"
             />
           </div>
@@ -101,7 +101,7 @@ const AuthRequiredModal = () => {
 
           <p className="mt-4 text-xs text-brown/50 flex items-center justify-center gap-1">
             <Heart size={12} className="text-secondary-500 fill-secondary-500" />
-            Tham gia cộng đồng Chuối Ơi hoàn toàn miễn phí!
+            Tham gia cộng đồng BANANA GO hoàn toàn miễn phí!
           </p>
         </motion.div>
       </div>

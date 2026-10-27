@@ -9,19 +9,19 @@ export const CORE_PRODUCTS = {
   BANANA_CHIPS: {
     id: 'BANANA_CHIPS',
     name: 'Chuối sấy giòn',
-    targetStageId: 3,
-    description: 'Sản phẩm từ chuối xanh già đạt độ tinh bột cao, giữ lát cắt mỏng đều khi làm giòn.',
+    targetStageId: 2,
+    description: 'Sản phẩm từ chuối xanh đạt độ tinh bột cao, giữ lát cắt mỏng đều khi làm giòn.',
   },
   SUGAR_COATED_BANANA: {
     id: 'SUGAR_COATED_BANANA',
     name: 'Chuối chiên ngào đường',
-    targetStageId: 4,
+    targetStageId: 3,
     description: 'Sản phẩm từ chuối bắt đầu chín, thịt quả còn săn chắc nhưng đã tích lũy hương thơm và vị ngọt thanh.',
   },
   BANANA_NUT_ROLL: {
     id: 'BANANA_NUT_ROLL',
     name: 'Chuối dẻo cuộn hạt',
-    targetStageId: 5,
+    targetStageId: 4,
     description: 'Sản phẩm từ chuối chín dẻo mềm, vị ngọt đậm đà, dễ cán mỏng và cuộn cùng các loại hạt dinh dưỡng.',
   },
 };
@@ -51,44 +51,27 @@ export const BANANA_STAGES = [
   },
   {
     id: 2,
-    code: 'BANANA_2_DEVELOPING',
-    name: 'Chuối đang phát triển',
-    fullName: 'Giai đoạn 2 – Chuối đang phát triển',
-    ripenessPercent: 30,
+    code: 'BANANA_2_GREEN',
+    name: 'Chuối xanh',
+    fullName: 'Giai đoạn 2 – Chuối xanh (Đang phát triển & Xanh già)',
+    ripenessPercent: 40,
     color: '#16A34A',
     bgBadge: 'bg-green-100 text-green-800 border-green-300',
-    description: 'Quả đã lớn hơn nhưng chưa đạt kích thước hoàn chỉnh, vỏ vẫn xanh, quả còn hơi dẹp; thịt dày hơn nhưng còn cứng, giàu tinh bột thô, chưa có vị ngọt rõ.',
-    texture: 'Thịt quả săn chắc, giòn cứng, ít nhựa hơn giai đoạn 1 nhưng chưa mềm.',
-    taste: 'Vị chát nhẹ, bùi khi nấu chín, chưa có vị ngọt.',
-    starchSugarProfile: 'Hàm lượng tinh bột thô tăng nhanh, tỷ lệ đường tự nhiên vẫn ở mức thấp.',
-    culinaryUsage: 'Phù hợp cho các món nấu chín nhiệt độ cao trong ẩm thực truyền thống: chuối luộc, chuối hấp, nấu canh, kho cá, om lươn, ốc om chuối đậu.',
-    farmerAdvice: 'Tiếp tục chăm sóc vườn chuối, bón phân kali và tưới tiêu hợp lý. Chỉ thu hoạch sớm khi gặp rủi ro thời tiết bất khả kháng (giông bão).',
-    recommendedProducts: [],
-    commercialProcessingRecommended: false,
-  },
-  {
-    id: 3,
-    code: 'BANANA_3_MATURE_GREEN',
-    name: 'Chuối xanh già',
-    fullName: 'Giai đoạn 3 – Chuối xanh già',
-    ripenessPercent: 50,
-    color: '#65A30D',
-    bgBadge: 'bg-lime-100 text-lime-800 border-lime-300',
-    description: 'Quả đạt kích thước hoàn chỉnh, quả tròn đều các cạnh, vỏ xanh đồng nhất; thịt quả chắc giòn, lượng tinh bột kháng cao, giữ hình dạng lát cắt rất tốt khi sơ chế.',
-    texture: 'Thịt quả chắc nịch, mặt cắt phẳng mịn, không bị nát dập khi bào mỏng.',
-    taste: 'Vị bùi béo, chát thoảng qua, thanh đạm.',
+    description: 'Vỏ quả thuần màu xanh lá, từ giai đoạn quả đang lớn đến khi đạt kích thước già hoàn chỉnh. Thịt quả chắc nịch, mặt cắt phẳng mịn, giàu tinh bột (bao gồm tinh bột kháng), vị bùi chát nhẹ, giữ hình dạng lát cắt rất tốt khi sơ chế.',
+    texture: 'Thịt quả chắc nịch, giòn cứng, mặt cắt phẳng mịn, không bị nát dập khi bào mỏng.',
+    taste: 'Vị bùi béo, chát thoảng qua khi nấu chín, thanh đạm, chưa có vị ngọt rõ.',
     starchSugarProfile: 'Hàm lượng tinh bột đạt đỉnh (đặc biệt là tinh bột kháng Resistant Starch), lượng đường tự nhiên rất thấp, chỉ số GI thấp.',
-    culinaryUsage: 'Nguyên liệu vàng cho các sản phẩm giòn: Chuối sấy giòn BananaGo (BANANA_CHIPS), snack chuối lắc muối ớt, bột chuối xanh sấy lạnh, nộm/gỏi chuối xanh.',
-    farmerAdvice: 'Thời điểm vàng để thu hoạch cho kênh thương mại vận chuyển xa hoặc cung ứng cho cơ sở chế biến chuối sấy giòn.',
+    culinaryUsage: 'Nguyên liệu vàng cho các sản phẩm giòn: Chuối sấy giòn BananaGo (BANANA_CHIPS), snack chuối lát chiên giòn, bột chuối xanh sấy lạnh, nộm/gỏi chuối xanh và các món nấu truyền thống (luộc, hấp, nấu canh, kho cá, ốc om chuối đậu).',
+    farmerAdvice: 'Thời điểm vàng để thu hoạch cho kênh thương mại vận chuyển xa hoặc chế biến chuối sấy giòn. Nếu gặp rủi ro thời tiết thu hoạch sớm có thể chuyển sang chế biến món nấu.',
     recommendedProducts: ['BANANA_CHIPS'],
     commercialProcessingRecommended: true,
   },
   {
-    id: 4,
-    code: 'BANANA_4_BEGINNING_RIPE',
+    id: 3,
+    code: 'BANANA_3_BEGINNING_RIPE',
     name: 'Chuối bắt đầu chín',
-    fullName: 'Giai đoạn 4 – Chuối bắt đầu chín',
-    ripenessPercent: 70,
+    fullName: 'Giai đoạn 3 – Chuối bắt đầu chín',
+    ripenessPercent: 65,
     color: '#EAB308',
     bgBadge: 'bg-yellow-100 text-yellow-800 border-yellow-300',
     description: 'Vỏ bắt đầu chuyển từ xanh sang vàng (hoặc vàng một phần); thịt quả mềm dần nhưng vẫn giữ cấu trúc; bắt đầu xuất hiện vị ngọt và hương thơm nhẹ.',
@@ -101,11 +84,11 @@ export const BANANA_STAGES = [
     commercialProcessingRecommended: true,
   },
   {
-    id: 5,
-    code: 'BANANA_5_RIPE',
+    id: 4,
+    code: 'BANANA_4_RIPE',
     name: 'Chuối chín',
-    fullName: 'Giai đoạn 5 – Chuối chín',
-    ripenessPercent: 90,
+    fullName: 'Giai đoạn 4 – Chuối chín',
+    ripenessPercent: 85,
     color: '#F59E0B',
     bgBadge: 'bg-amber-100 text-amber-800 border-amber-300',
     description: 'Vỏ vàng hoàn toàn hoặc gần hoàn toàn; thịt mềm mịn, vị ngọt đậm đà, mùi thơm hoa quả rõ nét, lượng đường tự nhiên phong phú.',
@@ -118,10 +101,10 @@ export const BANANA_STAGES = [
     commercialProcessingRecommended: true,
   },
   {
-    id: 6,
-    code: 'BANANA_6_FULLY_RIPE',
+    id: 5,
+    code: 'BANANA_5_FULLY_RIPE',
     name: 'Chuối chín kỹ',
-    fullName: 'Giai đoạn 6 – Chuối chín kỹ',
+    fullName: 'Giai đoạn 5 – Chuối chín kỹ',
     ripenessPercent: 100,
     color: '#D97706',
     bgBadge: 'bg-orange-100 text-orange-800 border-orange-300',
@@ -154,21 +137,30 @@ export function getStageById(id) {
 export function getStageByCode(code) {
   if (!code || typeof code !== 'string') return null;
   const cleanCode = code.trim().toUpperCase();
-  return BANANA_STAGES.find((s) => s.code === cleanCode) || null;
+  const aliasMap = {
+    BANANA_2_DEVELOPING: 'BANANA_2_GREEN',
+    BANANA_2_MATURE_GREEN: 'BANANA_2_GREEN',
+    BANANA_3_MATURE_GREEN: 'BANANA_2_GREEN',
+    BANANA_4_BEGINNING_RIPE: 'BANANA_3_BEGINNING_RIPE',
+    BANANA_5_RIPE: 'BANANA_4_RIPE',
+    BANANA_6_FULLY_RIPE: 'BANANA_5_FULLY_RIPE',
+  };
+  const normalized = aliasMap[cleanCode] || cleanCode;
+  return BANANA_STAGES.find((s) => s.code === normalized) || null;
 }
 
 /**
- * Kiểm tra xem ID có thuộc 6 giai đoạn hợp lệ hay không
+ * Kiểm tra xem ID có thuộc 5 giai đoạn hợp lệ hay không
  * @param {any} id 
  * @returns {boolean}
  */
 export function isValidStageId(id) {
   const numericId = Number(id);
-  return Number.isInteger(numericId) && numericId >= 1 && numericId <= 6;
+  return Number.isInteger(numericId) && numericId >= 1 && numericId <= 5;
 }
 
 /**
- * Kiểm tra xem Mã code có thuộc 6 giai đoạn hợp lệ hay không
+ * Kiểm tra xem Mã code có thuộc 5 giai đoạn hợp lệ hay không
  * @param {any} code 
  * @returns {boolean}
  */

@@ -94,36 +94,69 @@ export async function analyzeBananaImage(imageInput, options = {}) {
     const responseData = await response.json().catch(() => null);
 
     if (response.ok && responseData && responseData.success) {
+      // Đảm bảo quả chuối được nhận diện hợp lệ vào 1 trong 5 giai đoạn
+      if (!responseData.stageId || responseData.stageCode === 'NOT_BANANA' || responseData.stageCode === 'UNCERTAIN') {
+        throw new Error(
+          responseData.reasoningSummary ||
+          'Hình ảnh quá mờ hoặc không nhận diện được quả chuối. Bạn vui lòng chụp ảnh quả chuối thật rõ nét nhé! 🍌'
+        );
+      }
       return enrichAnalysisResult(responseData, 'gemini', null);
     }
 
-    // Nếu server trả về lỗi (429, 500, 502, 504...)
+    // Nếu server trả về lỗi (400, 429, 500, 502, 504...)
     const errorCode = responseData?.error?.code || `HTTP_${response.status}`;
-    const errorMessage = responseData?.error?.message || 'Không thể nhận diện ảnh quả chuối.';
+    const rawErrorMessage = responseData?.error?.message;
 
-    if (enableFallback) {
-      console.warn(`[AnalyzeService] API trả về lỗi ${errorCode}: ${errorMessage}. Kích hoạt Mock Fallback an toàn.`);
-      const fallbackFixture = getMockAnalysisFixture(demoStageId || 3);
-      return enrichAnalysisResult(
-        fallbackFixture,
-        'mock_fallback',
-        `Hệ thống AI bận (${errorCode}: ${errorMessage}). Đã tự động kích hoạt kết quả mẫu để không gián đoạn trải nghiệm.`
+    // Khi hình ảnh mờ, không phải chuối, không nhận diện được -> Đưa ra lỗi luôn, TUYỆT ĐỐI KHÔNG FALLBACK
+    const isImageRecognitionIssue = [
+      'NOT_BANANA',
+      'UNCERTAIN_IMAGE',
+      'IMAGE_UNCERTAIN',
+      'UNCERTAIN',
+      'INVALID_IMAGE',
+      'PAYLOAD_TOO_LARGE',
+    ].includes(errorCode);
+
+    if (isImageRecognitionIssue) {
+      throw new Error(
+        rawErrorMessage ||
+        'Hình ảnh quá mờ hoặc không nhận diện được quả chuối. Bạn vui lòng chụp lại ảnh quả chuối thật rõ nét nhé! 🍌'
       );
     }
 
-    throw new Error(errorMessage);
+    // Thông báo gần gũi, thân thiện thay thế cho các mã lỗi kỹ thuật khô khan
+    const friendlyNotice =
+      'Trợ lý AI đang có nhiều bạn quét cùng lúc nên hơi bận một chút xíu. Bạn đợi vài giây rồi thử quét lại nhé! 🍌';
+
+    if (enableFallback) {
+      console.warn(`[AnalyzeService] API tạm thời bận (${errorCode}). Kích hoạt dữ liệu tham khảo.`);
+      const fallbackFixture = getMockAnalysisFixture(demoStageId || 3);
+      return enrichAnalysisResult(fallbackFixture, 'mock_fallback', friendlyNotice);
+    }
+
+    throw new Error(friendlyNotice);
   } catch (networkOrGeneralError) {
+    // Nếu lỗi đã được định danh cụ thể (ví dụ do nhận diện ảnh hoặc câu thông báo thân thiện) thì ném tiếp
+    if (
+      networkOrGeneralError.message &&
+      (networkOrGeneralError.message.includes('chuối') ||
+        networkOrGeneralError.message.includes('mờ') ||
+        networkOrGeneralError.message.includes('Trợ lý AI'))
+    ) {
+      throw networkOrGeneralError;
+    }
+
+    const friendlyNetworkNotice =
+      'Trợ lý AI đang có nhiều bạn quét cùng lúc nên hơi bận một chút xíu. Bạn đợi vài giây rồi thử quét lại nhé! 🍌';
+
     if (enableFallback) {
       console.warn('[AnalyzeService] Mất kết nối tới API:', networkOrGeneralError.message);
       const fallbackFixture = getMockAnalysisFixture(demoStageId || 3);
-      return enrichAnalysisResult(
-        fallbackFixture,
-        'mock_fallback',
-        'Không thể kết nối đến máy chủ AI (Mạng offline hoặc chưa deploy serverless). Đã chuyển sang dữ liệu mẫu Demo.'
-      );
+      return enrichAnalysisResult(fallbackFixture, 'mock_fallback', friendlyNetworkNotice);
     }
 
-    throw networkOrGeneralError;
+    throw new Error(friendlyNetworkNotice);
   }
 }
 
@@ -155,11 +188,16 @@ function enrichAnalysisResult(rawResult, source = 'gemini', fallbackNotice = nul
 function mapCodeToId(code) {
   const map = {
     BANANA_1_NON: 1,
+    BANANA_2_GREEN: 2,
     BANANA_2_DEVELOPING: 2,
-    BANANA_3_MATURE_GREEN: 3,
-    BANANA_4_BEGINNING_RIPE: 4,
-    BANANA_5_RIPE: 5,
-    BANANA_6_FULLY_RIPE: 6,
+    BANANA_2_MATURE_GREEN: 2,
+    BANANA_3_MATURE_GREEN: 2,
+    BANANA_3_BEGINNING_RIPE: 3,
+    BANANA_4_BEGINNING_RIPE: 3,
+    BANANA_4_RIPE: 4,
+    BANANA_5_RIPE: 4,
+    BANANA_5_FULLY_RIPE: 5,
+    BANANA_6_FULLY_RIPE: 5,
   };
   return map[code] || null;
 }

@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
 
   // State điều khiển modal yêu cầu đăng nhập khi khách click vào các tính năng cần tài khoản
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authModalMessage, setAuthModalMessage] = useState('Vui lòng đăng nhập để tiếp tục khám phá tính năng này cùng Chuối Ơi!');
+  const [authModalMessage, setAuthModalMessage] = useState('Vui lòng đăng nhập để tiếp tục khám phá tính năng này cùng BANANA GO!');
 
   // Tự động đồng bộ với localStorage mỗi khi user thay đổi
   useEffect(() => {
@@ -97,7 +97,7 @@ export const AuthProvider = ({ children }) => {
         };
 
         setUser(newUser);
-        resolve({ success: true, user: newUser, message: 'Đăng ký tài khoản thành công! Chào mừng bạn gia nhập Chuối Ơi.' });
+        resolve({ success: true, user: newUser, message: 'Đăng ký tài khoản thành công! Chào mừng bạn gia nhập BANANA GO.' });
       }, 600);
     });
   };
@@ -144,7 +144,7 @@ export const AuthProvider = ({ children }) => {
       }
       return true;
     } else {
-      setAuthModalMessage(customMessage || 'Vui lòng đăng nhập để tiếp tục trải nghiệm trọn vẹn Chuối Ơi nhé!');
+      setAuthModalMessage(customMessage || 'Vui lòng đăng nhập để tiếp tục trải nghiệm trọn vẹn BANANA GO nhé!');
       setAuthModalOpen(true);
       return false;
     }

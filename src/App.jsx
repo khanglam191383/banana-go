@@ -5,7 +5,7 @@ import { ToastProvider } from './context/ToastContext';
 import AppRoutes from './routes/AppRoutes';
 
 /**
- * Ứng dụng CHUỐI ƠI Root Component
+ * Ứng dụng BANANA GO Root Component
  * Tích hợp BrowserRouter, AuthProvider và ToastProvider cho toàn bộ hệ sinh thái
  */
 function App() {

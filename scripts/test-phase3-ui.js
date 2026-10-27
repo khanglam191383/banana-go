@@ -43,8 +43,7 @@ const aiPagePath = path.resolve(__dirname, '../src/pages/AiBananaPage.jsx');
 const aiPageContent = fs.readFileSync(aiPagePath, 'utf-8');
 
 assert(aiPageContent.includes("validateImageFile"), 'AiBananaPage sử dụng validateImageFile kiểm tra định dạng và dung lượng.');
-assert(aiPageContent.includes("analyzeBananaImage"), 'AiBananaPage kết nối với analyzeService.');
-assert(aiPageContent.includes("setDemoMode"), 'AiBananaPage có công tắc chuyển đổi Chế độ Demo / AI Live.');
+assert(aiPageContent.includes("BANANA_STAGES") && aiPageContent.includes("Thang 5 Giai Đoạn"), 'AiBananaPage hiển thị thanh ngang tiến trình 5 giai đoạn phát triển.');
 assert(aiPageContent.includes("analysisResult.source === 'gemini'"), 'AiBananaPage hiển thị rõ nguồn gốc kết quả (Gemini vs Mock Fallback).');
 assert(aiPageContent.includes("analysisResult.confidenceLabel"), 'AiBananaPage hiển thị nhãn tin cậy định tính (Cao / Trung bình / Thấp).');
 assert(aiPageContent.includes("spoilage_detected"), 'AiBananaPage có banner màu đỏ cảnh báo nấm mốc hoặc thối rữa an toàn thực phẩm.');

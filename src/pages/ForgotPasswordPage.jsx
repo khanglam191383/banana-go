@@ -5,7 +5,7 @@ import { Mail, KeyRound, Lock, Eye, EyeOff, CheckCircle2, ArrowLeft, RefreshCw, 
 import { useToast } from '../context/ToastContext';
 
 /**
- * Trang Quên Mật Khẩu CHUỐI ƠI
+ * Trang Quên Mật Khẩu BANANA GO
  * Quy trình 3 bước hoàn chỉnh:
  * Bước 1: Nhập Email xác nhận
  * Bước 2: Nhập mã OTP 6 số (Giả lập)
@@ -155,7 +155,7 @@ const ForgotPasswordPage = () => {
               Đừng Lo Bạn Ơi!
             </h2>
             <p className="text-brown/80 text-sm mt-2 font-medium">
-              Chuối Ơi sẽ giúp bạn lấy lại chìa khóa vào ngôi nhà ẩm thực chuối chỉ với 3 bước siêu đơn giản.
+              BANANA GO sẽ giúp bạn lấy lại chìa khóa vào ngôi nhà ẩm thực chuối chỉ với 3 bước siêu đơn giản.
             </p>
           </div>
 
@@ -168,7 +168,7 @@ const ForgotPasswordPage = () => {
             <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-full bg-white/50 p-4 border-4 border-white shadow-banana flex items-center justify-center">
               <img
                 src="/logo.png"
-                alt="Linh vật Chuối Ơi hỗ trợ"
+                alt="Linh vật BANANA GO hỗ trợ"
                 className="w-full h-full object-contain"
               />
             </div>
@@ -225,7 +225,7 @@ const ForgotPasswordPage = () => {
                   Quên Mật Khẩu?
                 </h1>
                 <p className="text-brown/70 text-sm mb-6">
-                  Nhập email bạn đã đăng ký để Chuối Ơi gửi mã xác thực OTP nhé.
+                  Nhập email bạn đã đăng ký để BANANA GO gửi mã xác thực OTP nhé.
                 </p>
 
                 <form onSubmit={handleStep1Submit} className="space-y-4">
@@ -331,7 +331,7 @@ const ForgotPasswordPage = () => {
                   Đặt Mật Khẩu Mới
                 </h1>
                 <p className="text-brown/70 text-sm mb-6">
-                  Tạo mật khẩu mới an toàn cho tài khoản Chuối Ơi của bạn.
+                  Tạo mật khẩu mới an toàn cho tài khoản BANANA GO của bạn.
                 </p>
 
                 <form onSubmit={handleStep3Submit} className="space-y-4">

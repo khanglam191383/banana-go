@@ -138,7 +138,7 @@ const HomePage = () => {
               <h1 className="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl text-brown-dark leading-[1.15]">
                 Hệ Sinh Thái Khám Phá <br className="hidden sm:inline" />
                 Thế Giới <span className="text-leaf relative inline-block">
-                  CHUỐI ƠI
+                  BANANA GO
                   <svg className="absolute -bottom-2 left-0 w-full h-3 text-primary-400" viewBox="0 0 100 15" preserveAspectRatio="none">
                     <path d="M0,8 Q50,15 100,8" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
                   </svg>
@@ -192,7 +192,7 @@ const HomePage = () => {
                 <div className="relative w-72 h-72 sm:w-84 sm:h-84 lg:w-96 lg:h-96 rounded-full bg-white/70 backdrop-blur-md p-6 border-4 border-white shadow-pop flex items-center justify-center">
                   <img
                     src="/logo.png"
-                    alt="Linh vật Chuối Ơi nháy mắt 3D"
+                    alt="Linh vật BANANA GO nháy mắt 3D"
                     className="w-full h-full object-contain filter drop-shadow-md"
                   />
                 </div>
@@ -567,7 +567,7 @@ const HomePage = () => {
               ✨ Niềm tự hào nông sản Việt
             </span>
             <h2 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-brown-dark">
-              CHUỐI ƠI CÓ GÌ ĐẶC BIỆT?
+              BANANA GO CÓ GÌ ĐẶC BIỆT?
             </h2>
             <p className="text-brown/70 text-base sm:text-lg">
               Một dự án được tạo dựng từ tình yêu bất tận với cây chuối quê hương, ứng dụng công nghệ hiện đại để đưa ẩm thực chuối lên một tầm cao mới.
@@ -651,7 +651,7 @@ const HomePage = () => {
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-10">
           <div>
             <span className="badge-tag bg-secondary-100 text-leaf border border-secondary-300 text-xs mb-2">
-              👨‍🍳 Bếp nhà Chuối Ơi
+              👨‍🍳 Bếp nhà BANANA GO
             </span>
             <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-brown-dark">
               Món Chuối Nổi Bật Tuần Này
@@ -830,7 +830,7 @@ const HomePage = () => {
           <div className="hidden lg:block absolute right-12 bottom-6 w-56 h-56 animate-float">
             <img
               src="/logo.png"
-              alt="Chuối Ơi Mascot"
+              alt="BANANA GO Mascot"
               className="w-full h-full object-contain filter drop-shadow-xl"
             />
           </div>

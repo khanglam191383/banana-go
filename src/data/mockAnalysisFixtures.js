@@ -34,39 +34,16 @@ export const MOCK_FIXTURES = {
 
   2: {
     success: true,
-    stage_id: 'BANANA_2_DEVELOPING',
+    stage_id: 'BANANA_2_GREEN',
     stageId: 2,
-    stage_name_vi: 'Giai đoạn 2 – Chuối đang phát triển',
+    stage_name_vi: 'Giai đoạn 2 – Chuối xanh (Đang phát triển & Xanh già)',
     confidence_label: 'high',
     visual_evidence: [
-      'Kích thước quả lớn hơn rõ rệt so với chuối non nhưng quả vẫn còn hơi dẹp, chưa tròn căng cạnh.',
-      'Vỏ giữ màu xanh lá tự nhiên, không có đốm vàng hay dấu hiệu chín sớm.',
-      'Cấu trúc thân quả thẳng hoặc hơi cong nhẹ, đường gân dọc thân còn nổi rõ.',
+      'Quả có kích thước từ đang phát triển đến hoàn chỉnh, các góc cạnh đầy đặn, chắc nịch.',
+      'Vỏ giữ màu xanh lá tự nhiên đồng nhất, không có đốm nâu hay dấu hiệu chín sớm.',
+      'Thịt quả chắc nịch, mặt cắt phẳng mịn, không bị nát dập khi bào mỏng.',
     ],
-    explanation_vi: 'Chuối đang trong quá trình tích lũy tinh bột thô. Thịt quả săn chắc, nhiều tinh bột thô, không có vị ngọt. Thích hợp cho các món nấu chín nhiệt độ cao trong ẩm thực truyền thống.',
-    multiple_bananas: false,
-    possible_quality_warning: false,
-    quality_warning_vi: null,
-    recommended_products: [],
-    limitations_vi: [
-      'Chưa phải là nguyên liệu ưu tiên cho 3 dòng sản phẩm thương mại của BananaGo.',
-      'Chỉ nên thu hoạch khi gặp rủi ro thiên tai hoặc có nhu cầu chế biến món ăn nấu chín gia đình.',
-    ],
-    source: 'mock_fallback',
-  },
-
-  3: {
-    success: true,
-    stage_id: 'BANANA_3_MATURE_GREEN',
-    stageId: 3,
-    stage_name_vi: 'Giai đoạn 3 – Chuối xanh già',
-    confidence_label: 'high',
-    visual_evidence: [
-      'Quả đạt kích thước phát triển tối đa, các góc cạnh tròn đều đặn và đẫy đà.',
-      'Vỏ quả màu xanh lục sáng đồng nhất, bề mặt nhẵn bóng, không có đốm nâu hay ngả vàng.',
-      'Mặt cắt lát mô phỏng giữ form phẳng mịn, không bị nát dập hay chảy dịch.',
-    ],
-    explanation_vi: 'Quả chuối xanh đã đạt độ già sinh lý tối ưu. Thịt quả chắc nịch, hàm lượng tinh bột kháng (Resistant Starch) cao nhất, giữ lát cắt cực tốt khi bào mỏng. Đây là nguyên liệu lý tưởng cho chuối sấy giòn.',
+    explanation_vi: 'Chuối xanh đạt độ già sinh lý tối ưu, thớ thịt quả săn chắc và hàm lượng tinh bột kháng (Resistant Starch) cao. Giữ lát cắt cực tốt khi bào mỏng làm chuối sấy giòn BANANA_CHIPS hoặc nấu các món truyền thống.',
     multiple_bananas: false,
     possible_quality_warning: false,
     quality_warning_vi: null,
@@ -78,11 +55,11 @@ export const MOCK_FIXTURES = {
     source: 'mock_fallback',
   },
 
-  4: {
+  3: {
     success: true,
-    stage_id: 'BANANA_4_BEGINNING_RIPE',
-    stageId: 4,
-    stage_name_vi: 'Giai đoạn 4 – Chuối bắt đầu chín',
+    stage_id: 'BANANA_3_BEGINNING_RIPE',
+    stageId: 3,
+    stage_name_vi: 'Giai đoạn 3 – Chuối bắt đầu chín',
     confidence_label: 'high',
     visual_evidence: [
       'Vỏ bắt đầu chuyển màu: xuất hiện các mảng màu vàng tươi xen kẽ màu xanh lục ở phần thân và sống quả.',
@@ -100,11 +77,11 @@ export const MOCK_FIXTURES = {
     source: 'mock_fallback',
   },
 
-  5: {
+  4: {
     success: true,
-    stage_id: 'BANANA_5_RIPE',
-    stageId: 5,
-    stage_name_vi: 'Giai đoạn 5 – Chuối chín',
+    stage_id: 'BANANA_4_RIPE',
+    stageId: 4,
+    stage_name_vi: 'Giai đoạn 4 – Chuối chín',
     confidence_label: 'high',
     visual_evidence: [
       'Vỏ quả chuyển sang màu vàng tươi hoàn toàn hoặc chỉ còn chút xanh rất mờ ở cuống.',
@@ -123,11 +100,11 @@ export const MOCK_FIXTURES = {
     source: 'mock_fallback',
   },
 
-  6: {
+  5: {
     success: true,
-    stage_id: 'BANANA_6_FULLY_RIPE',
-    stageId: 6,
-    stage_name_vi: 'Giai đoạn 6 – Chuối chín kỹ',
+    stage_id: 'BANANA_5_FULLY_RIPE',
+    stageId: 5,
+    stage_name_vi: 'Giai đoạn 5 – Chuối chín kỹ',
     confidence_label: 'high',
     visual_evidence: [
       'Vỏ quả xuất hiện nhiều đốm nâu trứng cuốc phủ khắp bề mặt hoặc ngả màu nâu mật sẫm.',
@@ -140,9 +117,28 @@ export const MOCK_FIXTURES = {
     quality_warning_vi: null,
     recommended_products: [],
     limitations_vi: [
-      'Không thích hợp cho các sản phẩm yêu cầu định hình nguyên lát hay cuộn bánh tròn.',
-      'Cần phân biệt chuối chín mật tự nhiên với quả bị nấm mốc hoặc thối nhũn.',
+      'Cần loại bỏ ngay các quả có dấu hiệu mốc, thối rữa hoặc chảy dịch hôi chua.',
     ],
+    source: 'mock_fallback',
+  },
+
+  6: {
+    // Alias hỗ trợ tương thích ngược
+    success: true,
+    stage_id: 'BANANA_5_FULLY_RIPE',
+    stageId: 5,
+    stage_name_vi: 'Giai đoạn 5 – Chuối chín kỹ',
+    confidence_label: 'high',
+    visual_evidence: [
+      'Vỏ quả xuất hiện nhiều đốm nâu trứng cuốc phủ khắp bề mặt.',
+      'Thịt quả rất mềm nhũn, hương thơm chuối mật ngào ngạt lan tỏa.',
+    ],
+    explanation_vi: 'Chuối chín kỹ ngọt lịm, cấu trúc mềm nhuyễn phù hợp xuất sắc cho các món bánh chuối nướng, sinh tố và mứt chuối.',
+    multiple_bananas: false,
+    possible_quality_warning: false,
+    quality_warning_vi: null,
+    recommended_products: [],
+    limitations_vi: [],
     source: 'mock_fallback',
   },
 

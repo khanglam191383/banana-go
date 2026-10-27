@@ -12,11 +12,16 @@ export const API_TIMEOUT_MS = 10000; // 10 giây timeout
 
 export const STAGE_CODE_TO_ID = {
   BANANA_1_NON: 1,
-  BANANA_2_DEVELOPING: 2,
-  BANANA_3_MATURE_GREEN: 3,
-  BANANA_4_BEGINNING_RIPE: 4,
-  BANANA_5_RIPE: 5,
-  BANANA_6_FULLY_RIPE: 6,
+  BANANA_2_GREEN: 2,
+  BANANA_2_DEVELOPING: 2, // alias
+  BANANA_2_MATURE_GREEN: 2, // alias
+  BANANA_3_MATURE_GREEN: 2, // alias
+  BANANA_3_BEGINNING_RIPE: 3,
+  BANANA_4_BEGINNING_RIPE: 3, // alias
+  BANANA_4_RIPE: 4,
+  BANANA_5_RIPE: 4, // alias
+  BANANA_5_FULLY_RIPE: 5,
+  BANANA_6_FULLY_RIPE: 5, // alias
   NOT_BANANA: null,
   UNCERTAIN: null,
 };
@@ -206,7 +211,7 @@ export async function analyzeImageCore(body, config = {}) {
           success: false,
           error: {
             code: 'AI_UPSTREAM_ERROR',
-            message: `Không thể kết nối đến Google Gemini API: ${err.message || 'Lỗi mạng'}`,
+            message: 'Trợ lý AI đang có nhiều bạn quét cùng lúc nên hơi bận một chút xíu. Bạn đợi vài giây rồi thử lại nhé! 🍌',
           },
         },
       };
@@ -222,7 +227,7 @@ export async function analyzeImageCore(body, config = {}) {
         success: false,
         error: {
           code: 'AI_TIMEOUT',
-          message: 'Thời gian phân tích của mô hình AI vượt quá giới hạn hoặc máy chủ Google đang quá tải. Vui lòng thử lại.',
+          message: 'Trợ lý AI phản hồi hơi chậm do đường truyền mạng. Bạn đợi một lát rồi thử lại nhé! 🍌',
         },
       },
     };
@@ -238,7 +243,7 @@ export async function analyzeImageCore(body, config = {}) {
           success: false,
           error: {
             code: 'AI_RATE_LIMITED',
-            message: 'Hạn ngạch Google Gemini API tạm thời quá tải (Rate limit 429). Đề xuất chuyển sang Chế độ Demo.',
+            message: 'Trợ lý AI đang có nhiều bạn quét cùng lúc nên hơi bận một chút xíu. Bạn đợi vài giây rồi thử quét lại nhé! 🍌',
           },
         },
       };
@@ -250,7 +255,7 @@ export async function analyzeImageCore(body, config = {}) {
         success: false,
         error: {
           code: 'AI_UPSTREAM_ERROR',
-          message: `Dịch vụ Google Gemini phản hồi mã lỗi HTTP ${response.status}: ${errorText.slice(0, 150)}`,
+          message: 'Trợ lý AI đang hơi bận một chút xíu. Bạn đợi vài giây rồi thử quét lại nhé! 🍌',
         },
       },
     };
@@ -273,7 +278,7 @@ export async function analyzeImageCore(body, config = {}) {
         success: false,
         error: {
           code: 'AI_UPSTREAM_ERROR',
-          message: 'Mô hình AI trả về dữ liệu không đúng định dạng JSON chuẩn.',
+          message: 'Trợ lý AI chưa phân tích được ảnh này. Bạn hãy thử chụp lại ảnh quả chuối góc khác rõ nét hơn nhé! 🍌',
         },
       },
     };
@@ -283,10 +288,36 @@ export async function analyzeImageCore(body, config = {}) {
   const stageCode = (rawJson.stage_id || '').trim().toUpperCase();
   const stageId = STAGE_CODE_TO_ID.hasOwnProperty(stageCode) ? STAGE_CODE_TO_ID[stageCode] : null;
 
+  // Nếu không phải chuối thật (đồ chơi, mô hình, tranh vẽ, người, vật thể khác) -> Báo lỗi luôn
+  if (stageCode === 'NOT_BANANA') {
+    return {
+      status: 400,
+      body: {
+        success: false,
+        error: {
+          code: 'NOT_BANANA',
+          message: rawJson.explanation_vi || 'Hình ảnh tải lên không phải quả chuối thật hoặc không tìm thấy quả chuối. Bạn vui lòng chụp ảnh quả chuối thật nhé! 🍌',
+        },
+      },
+    };
+  }
+
+  // Nếu ảnh mờ, thiếu sáng hoặc không xác định được quả chuối -> Báo lỗi luôn
+  if (stageCode === 'UNCERTAIN' || stageId === null || rawJson.confidence_label === 'low') {
+    return {
+      status: 400,
+      body: {
+        success: false,
+        error: {
+          code: 'UNCERTAIN_IMAGE',
+          message: rawJson.explanation_vi || 'Hình ảnh hơi mờ hoặc thiếu sáng khiến AI chưa nhận diện rõ quả chuối. Bạn vui lòng chụp lại ảnh rõ nét hơn ở nơi đủ sáng nhé! 🍌',
+        },
+      },
+    };
+  }
+
   const qualityIssues = [];
   if (rawJson.multiple_bananas) qualityIssues.push('multiple_bananas');
-  if (stageCode === 'NOT_BANANA') qualityIssues.push('not_banana');
-  if (stageCode === 'UNCERTAIN' || rawJson.confidence_label === 'low') qualityIssues.push('uncertain_evidence');
 
   const warnings = [];
   if (rawJson.possible_quality_warning) {
@@ -297,8 +328,8 @@ export async function analyzeImageCore(body, config = {}) {
     success: true,
     stageId,
     stageCode,
-    stageName: rawJson.stage_name_vi || (stageId ? `Giai đoạn ${stageId}` : 'Không xác định'),
-    confidenceLabel: ['high', 'medium', 'low'].includes(rawJson.confidence_label)
+    stageName: rawJson.stage_name_vi || `Giai đoạn ${stageId}`,
+    confidenceLabel: ['high', 'medium'].includes(rawJson.confidence_label)
       ? rawJson.confidence_label
       : 'medium',
     reasoningSummary: rawJson.explanation_vi || 'Đã hoàn tất phân tích hình thái quả chuối.',

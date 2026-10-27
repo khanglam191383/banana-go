@@ -15,7 +15,7 @@ import {
 import { useToast } from '../../context/ToastContext';
 
 /**
- * Footer của website CHUỐI ƠI
+ * Footer của website BANANA GO
  * Bao gồm: Thương hiệu, slogan, liên kết nhanh, kết nối mạng xã hội, form đăng ký nhận bí kíp và bản quyền
  */
 const Footer = () => {
@@ -30,7 +30,7 @@ const Footer = () => {
       return;
     }
     setSubscribed(true);
-    success('Cảm ơn bạn! Chuối Ơi sẽ gửi công thức ngon vào hòm thư sớm nhất 🍌');
+    success('Cảm ơn bạn! BANANA GO sẽ gửi công thức ngon vào hòm thư sớm nhất 🍌');
     setEmailSub('');
   };
 
@@ -46,11 +46,11 @@ const Footer = () => {
           <div className="lg:col-span-2 space-y-4">
             <Link to="/" className="inline-flex items-center gap-3">
               <div className="w-14 h-14 rounded-full bg-primary-100 p-1 border-2 border-primary-300 flex items-center justify-center shadow-soft">
-                <img src="/logo.png" alt="Chuối Ơi Logo" className="w-full h-full object-contain" />
+                <img src="/logo.png" alt="BANANA GO Logo" className="w-full h-full object-contain" />
               </div>
               <div>
                 <span className="font-display font-extrabold text-3xl text-leaf tracking-tight">
-                  CHUỐI ƠI
+                  BANANA GO
                 </span>
                 <span className="block text-xs font-bold text-brown/70">
                   Chuối tây chuối ta, món gì cũng có
@@ -68,7 +68,7 @@ const Footer = () => {
                 target="_blank" 
                 rel="noreferrer"
                 className="w-10 h-10 rounded-full bg-cream border border-primary-300 flex items-center justify-center hover:bg-primary hover:text-brown-dark transition-all transform hover:-translate-y-1 shadow-sm"
-                aria-label="Facebook Chuối Ơi"
+                aria-label="Facebook BANANA GO"
               >
                 <Facebook size={18} />
               </a>
@@ -77,7 +77,7 @@ const Footer = () => {
                 target="_blank" 
                 rel="noreferrer"
                 className="w-10 h-10 rounded-full bg-cream border border-primary-300 flex items-center justify-center hover:bg-primary hover:text-brown-dark transition-all transform hover:-translate-y-1 shadow-sm"
-                aria-label="YouTube Chuối Ơi"
+                aria-label="YouTube BANANA GO"
               >
                 <Youtube size={18} />
               </a>
@@ -86,7 +86,7 @@ const Footer = () => {
                 target="_blank" 
                 rel="noreferrer"
                 className="w-10 h-10 rounded-full bg-cream border border-primary-300 flex items-center justify-center hover:bg-primary hover:text-brown-dark transition-all transform hover:-translate-y-1 shadow-sm"
-                aria-label="Instagram Chuối Ơi"
+                aria-label="Instagram BANANA GO"
               >
                 <Instagram size={18} />
               </a>
@@ -191,7 +191,7 @@ const Footer = () => {
 
         {/* Bản quyền & Lời cảm ơn */}
         <div className="mt-12 pt-8 border-t border-primary-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-semibold text-brown/60">
-          <p>© {new Date().getFullYear()} CHUỐI ƠI. Dự án được ấp ủ và phát triển bởi Hoàng Khang & Đội ngũ.</p>
+          <p>© {new Date().getFullYear()} BANANA GO. Dự án được ấp ủ và phát triển bởi Hoàng Khang & Đội ngũ.</p>
           <p className="flex items-center gap-1">
             Lan tỏa tình yêu nông sản Việt bằng cả <Heart size={14} className="text-red-500 fill-red-500" />
           </p>

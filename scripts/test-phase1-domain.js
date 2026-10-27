@@ -28,17 +28,16 @@ console.log('====================================================');
 console.log('BANANAGO PHASE 1 DOMAIN INTEGRITY TEST SUITE');
 console.log('====================================================\n');
 
-// 1. Kiểm tra 6 Giai đoạn Trái Chuối (stages.js)
+// 1. Kiểm tra 5 Giai đoạn Trái Chuối (stages.js)
 console.log('1. Kiểm tra Module Giai đoạn TRÁI CHUỐI (src/domain/stages.js):');
-assert(BANANA_STAGES.length === 6, 'Phải có chính xác 6 giai đoạn trái chuối.');
+assert(BANANA_STAGES.length === 5, 'Phải có chính xác 5 giai đoạn trái chuối.');
 
 const expectedCodes = [
   'BANANA_1_NON',
-  'BANANA_2_DEVELOPING',
-  'BANANA_3_MATURE_GREEN',
-  'BANANA_4_BEGINNING_RIPE',
-  'BANANA_5_RIPE',
-  'BANANA_6_FULLY_RIPE',
+  'BANANA_2_GREEN',
+  'BANANA_3_BEGINNING_RIPE',
+  'BANANA_4_RIPE',
+  'BANANA_5_FULLY_RIPE',
 ];
 
 BANANA_STAGES.forEach((stage, idx) => {
@@ -52,10 +51,11 @@ BANANA_STAGES.forEach((stage, idx) => {
   assert(typeof stage.farmerAdvice === 'string', `Giai đoạn ${expectedId} có lời khuyên thu hoạch/bảo quản`);
 });
 
-assert(getStageById(3)?.code === 'BANANA_3_MATURE_GREEN', 'getStageById(3) trả về đúng Giai đoạn 3.');
-assert(getStageByCode('BANANA_5_RIPE')?.id === 5, 'getStageByCode("BANANA_5_RIPE") trả về đúng ID 5.');
-assert(isValidStageId(1) === true && isValidStageId(6) === true, 'isValidStageId hợp lệ cho 1..6.');
-assert(isValidStageId(0) === false && isValidStageId(7) === false, 'isValidStageId từ chối các ID ngoài 1..6.');
+assert(getStageById(3)?.code === 'BANANA_3_BEGINNING_RIPE', 'getStageById(3) trả về đúng Giai đoạn 3 (Bắt đầu chín).');
+assert(getStageByCode('BANANA_4_RIPE')?.id === 4, 'getStageByCode("BANANA_4_RIPE") trả về đúng ID 4.');
+assert(getStageByCode('BANANA_5_RIPE')?.id === 4, 'Legacy alias BANANA_5_RIPE ánh xạ về ID 4 (Chuối chín).');
+assert(isValidStageId(1) === true && isValidStageId(5) === true, 'isValidStageId hợp lệ cho 1..5.');
+assert(isValidStageId(0) === false && isValidStageId(6) === false, 'isValidStageId từ chối các ID ngoài 1..5.');
 assert(isValidStageCode('INVALID_CODE') === false, 'isValidStageCode từ chối mã không tồn tại.');
 
 // 2. Kiểm tra Image Validation (imageValidation.js)
@@ -79,7 +79,7 @@ assert(stripped === 'iVBORw0KGgoAAAANSUhEUg==', 'stripBase64Prefix loại bỏ �
 
 // 4. Kiểm tra Mock Analysis Fixtures (mockAnalysisFixtures.js)
 console.log('\n4. Kiểm tra Dữ liệu Phân tích Mẫu (src/data/mockAnalysisFixtures.js):');
-[1, 2, 3, 4, 5, 6].forEach((stageId) => {
+[1, 2, 3, 4, 5].forEach((stageId) => {
   const fix = getMockAnalysisFixture(stageId);
   assert(fix.success === true, `Fixture stage ${stageId} có success = true.`);
   assert(fix.stageId === stageId, `Fixture stage ${stageId} có stageId khớp = ${stageId}.`);
@@ -88,6 +88,9 @@ console.log('\n4. Kiểm tra Dữ liệu Phân tích Mẫu (src/data/mockAnalysi
   assert(Array.isArray(fix.recommended_products), `Fixture stage ${stageId} có mảng recommended_products.`);
   assert(Array.isArray(fix.limitations_vi), `Fixture stage ${stageId} có mảng limitations_vi.`);
 });
+
+const fixLegacy6 = getMockAnalysisFixture(6);
+assert(fixLegacy6.success === true && fixLegacy6.stageId === 5, 'Legacy Fixture stage 6 tương thích ngược ánh xạ về Stage 5.');
 
 const fixUncertain = getMockAnalysisFixture('uncertain');
 assert(fixUncertain.stage_id === 'UNCERTAIN' && fixUncertain.confidence_label === 'low', 'Fixture uncertain có nhãn LOW và stage UNCERTAIN.');
@@ -125,8 +128,8 @@ const recStage1 = getRecommendedDishes(1);
 assert(recStage1.dishes.length === 0, 'Giai đoạn 1 (Chuối non) trả về đúng 0 món ăn.');
 assert(typeof recStage1.notice === 'string' && recStage1.notice.length > 0, 'Giai đoạn 1 có thông điệp giải thích nông học.');
 
-// Kiểm tra các giai đoạn 2 đến 6: trả về 1..5 món (không bao giờ vượt quá 5)
-[2, 3, 4, 5, 6].forEach((stg) => {
+// Kiểm tra các giai đoạn 2 đến 5: trả về 1..5 món (không bao giờ vượt quá 5)
+[2, 3, 4, 5].forEach((stg) => {
   const rec = getRecommendedDishes(stg);
   assert(rec.dishes.length > 0 && rec.dishes.length <= MAX_RECOMMENDED_DISHES, `Giai đoạn ${stg} trả về ${rec.dishes.length} món (<= 5 món).`);
   rec.dishes.forEach((d) => {

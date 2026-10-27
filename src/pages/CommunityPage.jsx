@@ -21,7 +21,7 @@ import { MOCK_COMMUNITY_POSTS } from '../data/mockData';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 
-// Danh sách 6 cảm xúc thân thiện của Chuối Ơi
+// Danh sách 6 cảm xúc thân thiện của BANANA GO
 const REACTIONS = [
   { key: 'love', emoji: '❤️', label: 'Yêu thích', color: 'text-red-500' },
   { key: 'like', emoji: '👍', label: 'Thích', color: 'text-blue-500' },
@@ -105,7 +105,7 @@ const CommunityPage = () => {
         const newPost = {
           id: `post-${Date.now()}`,
           author: {
-            name: user?.fullName || 'Thành viên Chuối Ơi',
+            name: user?.fullName || 'Thành viên BANANA GO',
             avatar: user?.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
             badge: 'Thành viên mới',
             joinDate: 'Mới gia nhập',
@@ -113,7 +113,7 @@ const CommunityPage = () => {
           createdAt: 'Vừa xong',
           content: newPostContent.trim(),
           image: newPostImage || null,
-          tags: [newPostTag, 'Gia đình Chuối Ơi'],
+          tags: [newPostTag, 'Gia đình BANANA GO'],
           reactions: { like: 1, love: 1, yummy: 0, haha: 0, wow: 0, sad: 0 },
           userReaction: 'love',
           comments: [],
@@ -248,7 +248,7 @@ const CommunityPage = () => {
   // Gửi báo cáo bài viết
   const handleSubmitReport = (e) => {
     e.preventDefault();
-    success('Cảm ơn bạn! Ban quản trị Chuối Ơi đã tiếp nhận báo cáo và sẽ kiểm duyệt sớm nhất.');
+    success('Cảm ơn bạn! Ban quản trị BANANA GO đã tiếp nhận báo cáo và sẽ kiểm duyệt sớm nhất.');
     setReportModalPost(null);
   };
 
@@ -674,7 +674,7 @@ const CommunityPage = () => {
               </div>
 
               <p className="text-xs text-brown/70">
-                Hãy cho ban quản trị Chuối Ơi biết lý do bài viết của <strong>{reportModalPost.author.name}</strong> không phù hợp:
+                Hãy cho ban quản trị BANANA GO biết lý do bài viết của <strong>{reportModalPost.author.name}</strong> không phù hợp:
               </p>
 
               <form onSubmit={handleSubmitReport} className="space-y-3">

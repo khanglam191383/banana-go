@@ -38,7 +38,7 @@ const AboutPage = () => {
     },
     {
       year: 'Hôm Nay',
-      title: 'Ra Mắt Hệ Sinh Thái CHUỐI ƠI',
+      title: 'Ra Mắt Hệ Sinh Thái BANANA GO',
       desc: 'Chính thức kết nối cộng đồng hàng chục ngàn người yêu ẩm thực Việt, mang đến giải pháp nấu ăn thông minh và nâng tầm giá trị nông sản nước nhà.',
     },
   ];
@@ -61,7 +61,7 @@ const AboutPage = () => {
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border-2 border-primary-300 shadow-sm">
           <Award size={16} className="text-primary-500" />
           <span className="font-display font-extrabold text-xs sm:text-sm text-leaf">
-            Về Ngôi Nhà CHUỐI ƠI
+            Về Ngôi Nhà BANANA GO
           </span>
         </div>
 
@@ -76,7 +76,7 @@ const AboutPage = () => {
 
         <div className="pt-2 flex justify-center">
           <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-full bg-white/70 p-4 border-4 border-primary-300 shadow-pop animate-float flex items-center justify-center">
-            <img src="/logo.png" alt="Linh vật Chuối Ơi" className="w-full h-full object-contain" />
+            <img src="/logo.png" alt="Linh vật BANANA GO" className="w-full h-full object-contain" />
           </div>
         </div>
       </section>
@@ -99,7 +99,7 @@ const AboutPage = () => {
                 Tại Việt Nam, chuối có mặt ở khắp mọi vùng miền — từ chuối ngự tiến vua Nam Định, chuối mốc miền Trung đến chuối sứ, chuối cau ngọt lịm đất phù sa phương Nam. Thế nhưng, bao năm qua có một nghịch lý: <strong>rất nhiều nải chuối chín ăn không kịp đành bỏ phí</strong>, trong khi chuối xanh lại ít ai biết cách chế biến ra món ngon ngoài các bữa tiệc cỗ.
               </p>
               <p className="text-brown/80 text-sm sm:text-base leading-relaxed">
-                <strong>CHUỐI ƠI</strong> ra đời với sứ mệnh xóa bỏ sự lãng phí đó! Bằng việc kết hợp kiến thức ẩm thực dân gian và trí tuệ nhân tạo, chúng tôi trao quyền cho bất kỳ ai biến quả chuối trong gian bếp thành những món ngon đỉnh cao.
+                <strong>BANANA GO</strong> ra đời với sứ mệnh xóa bỏ sự lãng phí đó! Bằng việc kết hợp kiến thức ẩm thực dân gian và trí tuệ nhân tạo, chúng tôi trao quyền cho bất kỳ ai biến quả chuối trong gian bếp thành những món ngon đỉnh cao.
               </p>
             </div>
 
@@ -138,7 +138,7 @@ const AboutPage = () => {
                   Tầm Nhìn 2030
                 </h3>
                 <p className="text-white/85 text-sm sm:text-base leading-relaxed">
-                  Phát triển CHUỐI ƠI trở thành siêu nền tảng số #1 Đông Nam Á về dữ liệu sinh học, ẩm thực và công nghệ nông nghiệp xoay quanh hệ sinh thái cây chuối.
+                  Phát triển BANANA GO trở thành siêu nền tảng số #1 Đông Nam Á về dữ liệu sinh học, ẩm thực và công nghệ nông nghiệp xoay quanh hệ sinh thái cây chuối.
                 </p>
               </div>
             </div>
@@ -163,7 +163,7 @@ const AboutPage = () => {
             ĐỘI NGŨ SÁNG LẬP
           </h2>
           <p className="text-brown/70 text-sm sm:text-base">
-            Gặp gỡ 5 thành viên trẻ trung, đam mê công nghệ và yêu văn hóa ẩm thực Việt đứng sau thành công của Chuối Ơi.
+            Gặp gỡ 5 thành viên trẻ trung, đam mê công nghệ và yêu văn hóa ẩm thực Việt đứng sau thành công của BANANA GO.
           </p>
         </div>
 

@@ -16,7 +16,7 @@ const NotFoundPage = () => {
         >
           <img
             src="/logo.png"
-            alt="Chuối Ơi đi lạc"
+            alt="BANANA GO đi lạc"
             className="w-full h-full object-contain filter drop-shadow-md"
           />
         </motion.div>

@@ -18,7 +18,7 @@ import ChangePasswordPage from '../pages/ChangePasswordPage';
 import NotFoundPage from '../pages/NotFoundPage';
 
 /**
- * Cấu hình toàn bộ đường dẫn (Routes) của ứng dụng CHUỐI ƠI
+ * Cấu hình toàn bộ đường dẫn (Routes) của ứng dụng BANANA GO
  */
 const AppRoutes = () => {
   return (

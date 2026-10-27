@@ -19,22 +19,37 @@ export const STAGE_DISH_MAPPING = {
     dishes: [],
   },
 
-  // Giai đoạn 2 – Chuối đang phát triển: Món nấu chín ở nhiệt độ cao (om, kho, canh)
+  // Giai đoạn 2 – Chuối xanh: Chips chuối sấy giòn (BANANA_CHIPS), bột chuối và các món nấu truyền thống (om, kho, canh)
   2: {
     stageId: 2,
-    stageCode: 'BANANA_2_DEVELOPING',
-    stageName: 'Giai đoạn 2 – Chuối đang phát triển',
-    commercialRecipes: [],
-    traditionalNotice: 'Thịt quả săn chắc, giàu tinh bột thô và vị chát nhẹ, thích hợp nhất cho các món truyền thống nấu chín nhừ.',
+    stageCode: 'BANANA_2_GREEN',
+    stageName: 'Giai đoạn 2 – Chuối xanh (Đang phát triển & Xanh già)',
+    commercialRecipes: ['BANANA_CHIPS'],
+    traditionalNotice: 'Thịt quả chắc nịch, giàu tinh bột kháng và giữ lát cắt rất tốt khi sơ chế; lý tưởng cho chuối sấy giòn BANANA_CHIPS cũng như các món om, kho, luộc truyền thống.',
     dishes: [
       {
+        recipeId: 'recipe-47',
+        suitabilityReason: 'Sản phẩm chủ lực BANANA_CHIPS: Chuối xanh thái lát mỏng sấy giòn tan, vị mộc tự nhiên giàu tinh bột kháng.',
+        reviewed: false,
+      },
+      {
+        recipeId: 'recipe-05',
+        suitabilityReason: 'Lát chuối xanh chiên ngập dầu giòn rụm, lắc phô mai béo mặn là món quà vặt hấp dẫn cho giới trẻ.',
+        reviewed: false,
+      },
+      {
         recipeId: 'recipe-19',
-        suitabilityReason: 'Chuối đang phát triển khi om với ốc bươu và đậu phụ sẽ hút trọn nước dùng đậm đà, miếng chuối bở bùi mà không bị nát.',
+        suitabilityReason: 'Chuối xanh khi om với ốc bươu và đậu phụ sẽ hút trọn nước dùng đậm đà, miếng chuối bở bùi mà không bị nát.',
         reviewed: false,
       },
       {
         recipeId: 'recipe-20',
         suitabilityReason: 'Vị bùi chát nhẹ của chuối kết hợp với vị ngọt của cá lóc đồng và nghệ vàng tạo nên hương vị om truyền thống cân bằng.',
+        reviewed: false,
+      },
+      {
+        recipeId: 'recipe-42',
+        suitabilityReason: 'Chuối xanh đập dẹp nướng than hoa rưới mỡ hành, ngoài giòn trong dẻo bùi đặc sản miền Tây.',
         reviewed: false,
       },
       {
@@ -48,8 +63,18 @@ export const STAGE_DISH_MAPPING = {
         reviewed: false,
       },
       {
+        recipeId: 'recipe-24',
+        suitabilityReason: 'Chuối xanh thái con chì xào cùng thịt bò thăn và lá lốt, giữ độ giòn sần sật không bị nát vỡ.',
+        reviewed: false,
+      },
+      {
         recipeId: 'recipe-21',
-        suitabilityReason: 'Vị béo ngậy của thịt ba chỉ hòa quyện vào cấu trúc tinh bột thô của chuối xanh đang lớn, đượm vị cơm nhà.',
+        suitabilityReason: 'Vị béo ngậy của thịt ba chỉ hòa quyện vào cấu trúc tinh bột của chuối xanh, đượm vị cơm nhà.',
+        reviewed: false,
+      },
+      {
+        recipeId: 'recipe-13',
+        suitabilityReason: 'Món xào chay sả ớt đậm vị, từng lát chuối xanh giữ nguyên hình dáng đẹp mắt và vị bùi béo.',
         reviewed: false,
       },
       {
@@ -60,47 +85,11 @@ export const STAGE_DISH_MAPPING = {
     ],
   },
 
-  // Giai đoạn 3 – Chuối xanh già: Chuối sấy giòn, chips chiên, xào, giữ lát cắt tốt
+  // Giai đoạn 3 – Chuối bắt đầu chín: Chuối chiên ngào đường, chuối nướng, ép dẻo
   3: {
     stageId: 3,
-    stageCode: 'BANANA_3_MATURE_GREEN',
-    stageName: 'Giai đoạn 3 – Chuối xanh già',
-    commercialRecipes: ['BANANA_CHIPS'],
-    traditionalNotice: 'Hàm lượng tinh bột kháng đạt đỉnh, thớ thịt quả chắc nịch giữ nguyên hình dạng lát bào mỏng, lý tưởng cho sản phẩm sấy giòn.',
-    dishes: [
-      {
-        recipeId: 'recipe-47',
-        suitabilityReason: 'Sản phẩm chủ lực BANANA_CHIPS: Chuối xanh già thái lát mỏng sấy giòn tan, vị mộc tự nhiên giàu tinh bột kháng.',
-        reviewed: false,
-      },
-      {
-        recipeId: 'recipe-05',
-        suitabilityReason: 'Lát chuối xanh già chiên ngập dầu giòn rụm, lắc phô mai béo mặn là món quà vặt hấp dẫn cho giới trẻ.',
-        reviewed: false,
-      },
-      {
-        recipeId: 'recipe-42',
-        suitabilityReason: 'Chuối già đập dẹp nướng than hoa rưới mỡ hành, ngoài giòn trong dẻo bùi đặc sản miền Tây.',
-        reviewed: false,
-      },
-      {
-        recipeId: 'recipe-24',
-        suitabilityReason: 'Chuối xanh già thái con chì xào cùng thịt bò thăn và lá lốt, giữ độ giòn sần sật không bị nát vỡ.',
-        reviewed: false,
-      },
-      {
-        recipeId: 'recipe-13',
-        suitabilityReason: 'Món xào chay sả ớt đậm vị, từng lát chuối xanh già giữ nguyên hình dáng đẹp mắt và vị bùi béo.',
-        reviewed: false,
-      },
-    ],
-  },
-
-  // Giai đoạn 4 – Chuối bắt đầu chín: Chuối chiên ngào đường, chuối nướng, ép dẻo
-  4: {
-    stageId: 4,
-    stageCode: 'BANANA_4_BEGINNING_RIPE',
-    stageName: 'Giai đoạn 4 – Chuối bắt đầu chín',
+    stageCode: 'BANANA_3_BEGINNING_RIPE',
+    stageName: 'Giai đoạn 3 – Chuối bắt đầu chín',
     commercialRecipes: ['SUGAR_COATED_BANANA', 'BANANA_NUT_ROLL'],
     traditionalNotice: 'Thịt quả bắt đầu mềm và có vị ngọt thanh nhưng cấu trúc vẫn đủ săn chắc để chiên ngào đường mà không bị gãy lát.',
     dishes: [
@@ -132,11 +121,11 @@ export const STAGE_DISH_MAPPING = {
     ],
   },
 
-  // Giai đoạn 5 – Chuối chín: Chuối dẻo cuộn hạt, chè chuối, kem chuối, chuối nếp nướng
-  5: {
-    stageId: 5,
-    stageCode: 'BANANA_5_RIPE',
-    stageName: 'Giai đoạn 5 – Chuối chín',
+  // Giai đoạn 4 – Chuối chín: Chuối dẻo cuộn hạt, chè chuối, kem chuối, chuối nếp nướng
+  4: {
+    stageId: 4,
+    stageCode: 'BANANA_4_RIPE',
+    stageName: 'Giai đoạn 4 – Chuối chín',
     commercialRecipes: ['BANANA_NUT_ROLL', 'SUGAR_COATED_BANANA'],
     traditionalNotice: 'Thịt quả chín vàng dẻo mềm, ngọt đượm và thơm nồng đặc trưng, dễ cán mỏng định hình hoặc nấu chè kem.',
     dishes: [
@@ -173,11 +162,11 @@ export const STAGE_DISH_MAPPING = {
     ],
   },
 
-  // Giai đoạn 6 – Chuối chín kỹ: Bánh chuối nướng, sinh tố, mứt chuối, puree
-  6: {
-    stageId: 6,
-    stageCode: 'BANANA_6_FULLY_RIPE',
-    stageName: 'Giai đoạn 6 – Chuối chín kỹ',
+  // Giai đoạn 5 – Chuối chín kỹ: Bánh chuối nướng, sinh tố, mứt chuối, puree
+  5: {
+    stageId: 5,
+    stageCode: 'BANANA_5_FULLY_RIPE',
+    stageName: 'Giai đoạn 5 – Chuối chín kỹ',
     commercialRecipes: [],
     traditionalNotice: 'Đốm nâu trứng cuốc phủ vỏ, lượng đường tự nhiên tối đa, cấu trúc mềm nhuyễn xuất sắc cho các món xay nghiền và nướng bánh.',
     dishes: [
@@ -216,15 +205,15 @@ export const STAGE_DISH_MAPPING = {
 };
 
 /**
- * Lấy danh sách ánh xạ món ăn theo giai đoạn (1 đến 6)
+ * Lấy danh sách ánh xạ món ăn theo giai đoạn (1 đến 5)
  * @param {number|string} stageId 
  * @returns {object}
  */
 export function getStageDishMapping(stageId) {
   const numericId = Number(stageId);
-  return STAGE_DISH_MAPPING[numericId] || {
+  return STAGE_DISH_MAPPING[numericId] || (numericId === 6 ? STAGE_DISH_MAPPING[5] : {
     stageId: numericId,
     dishes: [],
     traditionalNotice: 'Không tìm thấy dữ liệu ánh xạ cho giai đoạn này.',
-  };
+  });
 }

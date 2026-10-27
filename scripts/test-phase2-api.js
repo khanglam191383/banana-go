@@ -79,15 +79,15 @@ const mockSuccessFetch = async () => ({
           parts: [
             {
               text: JSON.stringify({
-                stage_id: 'BANANA_3_MATURE_GREEN',
-                stage_name_vi: 'Giai đoạn 3 – Chuối xanh già',
+                stage_id: 'BANANA_3_BEGINNING_RIPE',
+                stage_name_vi: 'Giai đoạn 3 – Chuối bắt đầu chín',
                 confidence_label: 'high',
-                visual_evidence: ['Vỏ xanh đồng đều', 'Đạt kích thước tối đa'],
-                explanation_vi: 'Chuối xanh già đạt độ chín sinh lý.',
+                visual_evidence: ['Vỏ chuyển vàng nhạt', 'Đầu núm còn xanh nhẹ'],
+                explanation_vi: 'Chuối bắt đầu chín sinh hóa, đường fructose tăng dần.',
                 multiple_bananas: false,
                 possible_quality_warning: false,
                 quality_warning_vi: null,
-                recommended_products: ['BANANA_CHIPS'],
+                recommended_products: ['SUGAR_COATED_BANANA'],
                 limitations_vi: [],
               }),
             },
@@ -105,7 +105,7 @@ const successResult = await analyzeImageCore(
 assert(successResult.status === 200, 'HTTP Status 200 thành công.');
 assert(successResult.body.success === true, 'Response body có success = true.');
 assert(successResult.body.stageId === 3, 'stageId được normalize thành số 3.');
-assert(successResult.body.stageCode === 'BANANA_3_MATURE_GREEN', 'stageCode khớp.');
+assert(successResult.body.stageCode === 'BANANA_3_BEGINNING_RIPE', 'stageCode khớp.');
 assert(successResult.body.confidenceLabel === 'high', 'confidenceLabel là high.');
 assert(successResult.body.source === 'gemini', 'source là gemini.');
 assert(Array.isArray(successResult.body.visualEvidence) && successResult.body.visualEvidence.length === 2, 'Bảo toàn visualEvidence.');
@@ -135,6 +135,42 @@ const badJsonResult = await analyzeImageCore(
   { apiKey: 'dummy_key', fetchFn: mockBadJsonFetch }
 );
 assert(badJsonResult.status === 502 && badJsonResult.body.error.code === 'AI_UPSTREAM_ERROR', 'Xử lý chuẩn mã lỗi AI_UPSTREAM_ERROR khi Gemini trả text lỗi.');
+
+// 3.6. Gemini phát hiện ảnh không phải chuối (NOT_BANANA)
+const mockNotBananaFetch = async () => ({
+  ok: true,
+  status: 200,
+  json: async () => ({
+    candidates: [{ content: { parts: [{ text: JSON.stringify({
+      stage_id: 'NOT_BANANA',
+      stage_name_vi: 'Không phải chuối thật',
+      explanation_vi: 'Hình ảnh này là một chú chó, không phải quả chuối thật.',
+    }) }] } }],
+  }),
+});
+const notBananaResult = await analyzeImageCore(
+  { image: { mimeType: 'image/jpeg', data: 'validbase64' } },
+  { apiKey: 'dummy_key', fetchFn: mockNotBananaFetch }
+);
+assert(notBananaResult.status === 400 && notBananaResult.body.error.code === 'NOT_BANANA', 'Báo lỗi HTTP 400 NOT_BANANA khi ảnh không phải quả chuối.');
+
+// 3.7. Gemini phát hiện ảnh quá mờ / không xác định (UNCERTAIN)
+const mockUncertainFetch = async () => ({
+  ok: true,
+  status: 200,
+  json: async () => ({
+    candidates: [{ content: { parts: [{ text: JSON.stringify({
+      stage_id: 'UNCERTAIN',
+      confidence_label: 'low',
+      explanation_vi: 'Hình ảnh bị rung mờ không thể xác định quả chuối.',
+    }) }] } }],
+  }),
+});
+const uncertainResult = await analyzeImageCore(
+  { image: { mimeType: 'image/jpeg', data: 'validbase64' } },
+  { apiKey: 'dummy_key', fetchFn: mockUncertainFetch }
+);
+assert(uncertainResult.status === 400 && uncertainResult.body.error.code === 'UNCERTAIN_IMAGE', 'Báo lỗi HTTP 400 UNCERTAIN_IMAGE khi ảnh quá mờ hoặc thiếu sáng.');
 
 // 4. Kiểm tra Vercel Serverless Function HTTP Handler (api/analyze.js)
 console.log('\n4. Kiểm tra Vercel Serverless Function Handler (api/analyze.js):');

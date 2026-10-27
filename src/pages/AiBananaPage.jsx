@@ -20,31 +20,7 @@ import { Link } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import { validateImageFile } from '../domain/imageValidation.js';
 import { analyzeBananaImage } from '../services/analyzeService.js';
-
-// 3 mẫu ảnh chuẩn đại diện cho 3 giai đoạn để người dùng test nhanh trong 1 click
-const SAMPLE_BANANAS = [
-  {
-    id: 'sample-green',
-    stageId: 3,
-    label: 'Chuối xanh già (GĐ 3)',
-    thumbnail: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=400&q=80',
-    desc: 'Vỏ xanh mướt, giàu tinh bột kháng',
-  },
-  {
-    id: 'sample-turning',
-    stageId: 4,
-    label: 'Bắt đầu chín (GĐ 4)',
-    thumbnail: 'https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&w=400&q=80',
-    desc: 'Vàng điểm xanh, ngọt thanh dẻo',
-  },
-  {
-    id: 'sample-ripe',
-    stageId: 5,
-    label: 'Chuối chín vàng (GĐ 5)',
-    thumbnail: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=400&q=80',
-    desc: 'Vàng đều, thơm nồng đậm đà',
-  },
-];
+import { BANANA_STAGES } from '../domain/stages.js';
 
 const AiBananaPage = () => {
   const { success, error, info } = useToast();
@@ -54,7 +30,7 @@ const AiBananaPage = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisProgress, setAnalysisProgress] = useState(0);
   const [analysisResult, setAnalysisResult] = useState(null);
-  const [demoMode, setDemoMode] = useState(false);
+  const [analysisError, setAnalysisError] = useState(null);
   const [activeTab, setActiveTab] = useState('all'); // 'all' | 'vegetarian' | 'savory' | 'sweet'
 
   // Xử lý chọn tệp ảnh với kiểm thực Client-side
@@ -62,6 +38,7 @@ const AiBananaPage = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    setAnalysisError(null);
     const validation = validateImageFile(file);
     if (!validation.isValid) {
       error(validation.error);
@@ -77,24 +54,14 @@ const AiBananaPage = () => {
     reader.readAsDataURL(file);
   };
 
-  // Chọn ảnh mẫu có sẵn để thử nghiệm nhanh
-  const handleSelectSample = async (sample) => {
-    setSelectedFile(null);
-    setSelectedImage(sample.thumbnail);
-    setAnalysisResult(null);
-    info(`Đã nạp mẫu: ${sample.label}`);
-
-    // Tự động kích hoạt phân tích mẫu
-    await triggerAnalysis(sample.thumbnail, { forceDemoMode: true, demoStageId: sample.stageId });
-  };
-
   // Bắt đầu quy trình phân tích AI qua analyzeService
   const handleStartAnalysis = async () => {
     if (!selectedImage && !selectedFile) {
       error('Vui lòng tải lên hoặc chụp một ảnh trái chuối cần phân tích!');
       return;
     }
-    await triggerAnalysis(selectedFile || selectedImage, { forceDemoMode: demoMode });
+    setAnalysisError(null);
+    await triggerAnalysis(selectedFile || selectedImage);
   };
 
   // Thực hiện phân tích và cập nhật tiến trình
@@ -102,6 +69,7 @@ const AiBananaPage = () => {
     setIsAnalyzing(true);
     setAnalysisProgress(15);
     setAnalysisResult(null);
+    setAnalysisError(null);
 
     const interval = setInterval(() => {
       setAnalysisProgress((prev) => (prev >= 85 ? 85 : prev + 15));
@@ -115,16 +83,18 @@ const AiBananaPage = () => {
       setTimeout(() => {
         setIsAnalyzing(false);
         setAnalysisResult(res);
-        if (res.source === 'gemini') {
-          success('AI Google Gemini đã hoàn tất phân tích ảnh trực tiếp! 🍌');
-        } else {
-          info('Đã hoàn tất phân tích với Dữ liệu mẫu Demo dự phòng.');
-        }
+        setAnalysisError(null);
+        success('Trợ lý AI đã hoàn tất nhận diện trái chuối! 🍌');
       }, 350);
     } catch (err) {
       clearInterval(interval);
       setIsAnalyzing(false);
-      error(err.message || 'Lỗi phân tích ảnh chuối.');
+      setAnalysisResult(null);
+      const friendlyMessage =
+        err.message ||
+        'Trợ lý AI đang có nhiều bạn quét cùng lúc nên hơi bận một chút xíu. Bạn đợi vài giây rồi thử quét lại nhé! 🍌';
+      setAnalysisError(friendlyMessage);
+      error(friendlyMessage);
     }
   };
 
@@ -147,27 +117,6 @@ const AiBananaPage = () => {
               BananaGo AI Vision Engine
             </span>
           </div>
-
-          {/* Toggle Chế độ Demo / Live */}
-          <button
-            type="button"
-            onClick={() => {
-              setDemoMode(!demoMode);
-              info(demoMode ? 'Đã chuyển sang: Chế độ AI Live (Google Gemini API)' : 'Đã bật: Chế độ Demo (Mock Offline)');
-            }}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all border shadow-sm ${
-              demoMode
-                ? 'bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200'
-                : 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100'
-            }`}
-            title="Nhấp để chuyển đổi giữa AI thật và dữ liệu mẫu"
-          >
-            {demoMode ? (
-              <><span>🧪</span> Chế độ Demo (Offline)</>
-            ) : (
-              <><span>⚡</span> Chế độ AI Live</>
-            )}
-          </button>
         </div>
 
         <h1 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-brown-dark leading-tight">
@@ -176,7 +125,7 @@ const AiBananaPage = () => {
         </h1>
 
         <p className="text-brown/70 text-sm sm:text-base leading-relaxed">
-          Tải ảnh quả chuối lên để mô hình AI phân loại vào đúng 1 trong 6 giai đoạn phát triển theo tài liệu chuẩn BananaGo, nhận diện đặc tính cảm quan và khám phá món ăn phù hợp nhất.
+          Tải ảnh quả chuối lên để mô hình AI phân loại vào đúng 1 trong 5 giai đoạn phát triển theo tài liệu chuẩn BananaGo, nhận diện đặc tính cảm quan và khám phá món ăn phù hợp nhất.
         </p>
       </div>
 
@@ -221,10 +170,10 @@ const AiBananaPage = () => {
                         <BrainCircuit size={36} />
                       </div>
                       <p className="font-display font-extrabold text-sm text-leaf">
-                        {demoMode ? 'Đang trích xuất dữ liệu mẫu...' : 'Gemini AI đang phân tích vỏ quả...'} {analysisProgress}%
+                        Gemini AI đang phân tích vỏ quả... {analysisProgress}%
                       </p>
                       <span className="text-[11px] text-brown/60 block">
-                        Đang đối chiếu với 6 giai đoạn chuẩn BananaGo
+                        Đang đối chiếu với 5 giai đoạn chuẩn BananaGo
                       </span>
                     </div>
                   </div>
@@ -261,7 +210,7 @@ const AiBananaPage = () => {
                 Bắt Đầu Phân Tích
               </h3>
               <p className="text-xs text-brown/70 leading-relaxed mb-4">
-                Hệ thống gửi ảnh qua máy chủ bảo mật để AI phân loại chính xác vào 1 trong 6 giai đoạn quả và đề xuất món chế biến phù hợp.
+                Hệ thống gửi ảnh qua máy chủ bảo mật để AI phân loại chính xác vào 1 trong 5 giai đoạn quả và đề xuất món chế biến phù hợp.
               </p>
 
               <button
@@ -278,7 +227,7 @@ const AiBananaPage = () => {
                 ) : (
                   <>
                     <Sparkles size={20} />
-                    <span>{demoMode ? 'Chạy Phân Tích (Demo Mock)' : 'Phân Tích Độ Chín Bằng AI'}</span>
+                    <span>Phân Tích Độ Chín Bằng AI</span>
                   </>
                 )}
               </button>
@@ -286,41 +235,80 @@ const AiBananaPage = () => {
 
             <div className="h-px bg-primary-100"></div>
 
-            {/* Thử nhanh với 3 ảnh mẫu */}
-            <div>
-              <h4 className="font-display font-bold text-sm text-brown mb-2 flex items-center gap-1.5">
-                <span>💡</span> Thử nhanh với 3 ảnh mẫu:
+            {/* Mẹo chụp ảnh chuối chuẩn AI */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-cream/70 border-2 border-primary-200/70 space-y-2.5">
+              <h4 className="font-display font-bold text-xs sm:text-sm text-brown-dark flex items-center gap-2">
+                <Lightbulb size={18} className="text-leaf shrink-0" />
+                <span>Mẹo Chụp Ảnh Để AI Nhận Diện Chuẩn Nhất:</span>
               </h4>
-              <div className="grid grid-cols-3 gap-2.5">
-                {SAMPLE_BANANAS.map((sample) => (
-                  <button
-                    key={sample.id}
-                    type="button"
-                    onClick={() => handleSelectSample(sample)}
-                    className="p-2 rounded-2xl border-2 border-primary-200 hover:border-leaf bg-white hover:bg-cream transition-all text-center flex flex-col items-center group"
-                  >
-                    <div className="w-full h-16 rounded-xl overflow-hidden mb-1.5 shadow-sm">
-                      <img
-                        src={sample.thumbnail}
-                        alt={sample.label}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform"
-                      />
-                    </div>
-                    <span className="text-[11px] font-bold text-brown leading-tight block">
-                      {sample.label}
-                    </span>
-                    <span className="text-[9px] text-brown/60 truncate w-full mt-0.5">
-                      {sample.desc}
-                    </span>
-                  </button>
-                ))}
-              </div>
+              <ul className="text-xs text-brown/80 space-y-2 leading-relaxed">
+                <li className="flex items-start gap-2">
+                  <span className="text-leaf font-bold">✓</span>
+                  <span>Chụp ảnh <strong>quả chuối thật</strong> ở nơi có đủ ánh sáng tự nhiên.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-leaf font-bold">✓</span>
+                  <span>Giữ máy chắc tay, tránh để ảnh bị rung mờ hay chói lóa.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-leaf font-bold">✓</span>
+                  <span>Chụp rõ nét màu sắc vỏ để AI phân loại chính xác từng giai đoạn.</span>
+                </li>
+              </ul>
             </div>
 
           </div>
 
         </div>
       </div>
+
+      {/* ==================== CẢNH BÁO / THÔNG BÁO LỖI THÂN THIỆN ==================== */}
+      {analysisError && !isAnalyzing && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="p-5 sm:p-6 rounded-3xl bg-amber-50 border-2 border-amber-300 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+        >
+          <div className="flex items-start gap-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-amber-100 border border-amber-300 flex items-center justify-center shrink-0 text-amber-700 text-2xl shadow-inner">
+              🍌
+            </div>
+            <div className="space-y-1">
+              <h4 className="font-display font-extrabold text-base text-amber-950 flex items-center gap-2">
+                Lời Nhắn Từ Trợ Lý BANANA GO
+              </h4>
+              <p className="text-amber-900 text-sm sm:text-base leading-relaxed">
+                {analysisError}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5 self-end sm:self-center shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                setAnalysisError(null);
+                handleStartAnalysis();
+              }}
+              className="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-primary text-brown-dark hover:bg-primary-400 transition shadow-sm active:scale-95"
+            >
+              Thử lại ngay
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setAnalysisError(null);
+                setSelectedImage(null);
+                setSelectedFile(null);
+                setAnalysisResult(null);
+              }}
+              className="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-white text-brown-dark border border-amber-300 hover:bg-amber-100/50 transition active:scale-95"
+            >
+              Đổi ảnh khác
+            </button>
+          </div>
+        </motion.div>
+      )}
 
       {/* ==================== 3. KẾT QUẢ PHÂN TÍCH AI HOÀN CHỈNH ==================== */}
       {analysisResult && (
@@ -331,56 +319,160 @@ const AiBananaPage = () => {
           className="bg-white rounded-3xl sm:rounded-4xl p-6 sm:p-10 border-3 border-leaf shadow-pop space-y-8"
         >
           {/* Header kết quả & Source Badge */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b-2 border-primary-100">
-            <div className="space-y-1">
-              <div className="flex flex-wrap items-center gap-2">
-                {analysisResult.source === 'gemini' ? (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
-                    <Bot size={14} /> AI Trực Tiếp (Google Gemini)
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300">
-                    <ShieldCheck size={14} /> Dữ Liệu Mẫu Demo (Mock Fallback)
-                  </span>
-                )}
+          <div className="pb-6 border-b-2 border-primary-100 space-y-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  {analysisResult.source === 'gemini' && (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                      <Bot size={14} /> AI Trực Tiếp (Google Gemini)
+                    </span>
+                  )}
 
-                {/* Nhãn mức độ tin cậy định tính (không dùng % ảo) */}
-                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold border ${
-                  analysisResult.confidenceLabel === 'high'
-                    ? 'bg-green-50 text-green-700 border-green-200'
-                    : analysisResult.confidenceLabel === 'medium'
-                    ? 'bg-yellow-50 text-yellow-700 border-yellow-200'
-                    : 'bg-orange-50 text-orange-700 border-orange-200'
-                }`}>
-                  Tin cậy: {
-                    analysisResult.confidenceLabel === 'high' ? 'Cao' :
-                    analysisResult.confidenceLabel === 'medium' ? 'Trung bình' : 'Thấp (Phân vân)'
-                  }
-                </span>
+                  {/* Nhãn mức độ tin cậy định tính (không dùng % ảo) */}
+                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold border ${
+                    analysisResult.confidenceLabel === 'high'
+                      ? 'bg-green-50 text-green-700 border-green-200'
+                      : analysisResult.confidenceLabel === 'medium'
+                      ? 'bg-yellow-50 text-yellow-700 border-yellow-200'
+                      : 'bg-orange-50 text-orange-700 border-orange-200'
+                  }`}>
+                    Tin cậy: {
+                      analysisResult.confidenceLabel === 'high' ? 'Cao' :
+                      analysisResult.confidenceLabel === 'medium' ? 'Trung bình' : 'Thấp (Phân vân)'
+                    }
+                  </span>
+                </div>
+
+                <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-brown-dark pt-1">
+                  Kết Quả: <span className="text-leaf">{analysisResult.stageName}</span>
+                </h2>
               </div>
-
-              <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-brown-dark pt-1">
-                Kết Quả: <span className="text-leaf">{analysisResult.stageName}</span>
-              </h2>
             </div>
-            
-            {/* Huy hiệu giai đoạn */}
+
+            {/* THANH TIẾN TRÌNH 5 GIAI ĐOẠN (STAGE PROGRESS TIMELINE) */}
             {analysisResult.stageId && (
-              <div className="px-5 py-2.5 rounded-2xl bg-cream border-2 border-primary-300 text-center">
-                <span className="text-[10px] font-bold text-brown/60 uppercase block">Giai đoạn quả</span>
-                <span className="font-display font-extrabold text-2xl text-leaf">
-                  {analysisResult.stageId} / 6
-                </span>
+              <div className="bg-cream/70 border-2 border-primary-200 rounded-3xl p-4 sm:p-6 shadow-inner space-y-3">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs sm:text-sm font-extrabold text-brown-dark flex items-center gap-1.5">
+                    <span>🌿</span> Thang 5 Giai Đoạn Vòng Đời Quả Chuối
+                  </span>
+                  <span className="text-[11px] sm:text-xs font-bold text-leaf bg-leaf/10 px-2.5 py-0.5 rounded-full border border-leaf/20">
+                    Phát hiện: Giai đoạn {analysisResult.stageId}/5
+                  </span>
+                </div>
+
+                {/* TRACK LINE VÀ 5 NỐT GIAI ĐOẠN */}
+                <div className="relative pt-6 sm:pt-7 pb-2">
+                  {/* Đường nối ngang mờ toàn bộ (Background track line) */}
+                  <div className="absolute top-12 sm:top-14 left-[10%] right-[10%] h-1.5 bg-primary-200/80 rounded-full -translate-y-1/2 z-0" />
+                  
+                  {/* Đường nối ngang đã đạt tới (Filled progress track) */}
+                  <div 
+                    className="absolute top-12 sm:top-14 left-[10%] h-1.5 bg-gradient-to-r from-emerald-500 via-leaf to-amber-500 rounded-full -translate-y-1/2 z-0 transition-all duration-700"
+                    style={{
+                      width: `${((Math.min(Math.max(analysisResult.stageId, 1), 5) - 1) / 4) * 80}%`,
+                    }}
+                  />
+
+                  {/* 5 Nốt Giai Đoạn */}
+                  <div className="relative z-10 grid grid-cols-5 gap-1 sm:gap-2">
+                    {BANANA_STAGES.map((stg) => {
+                      const isCurrent = stg.id === analysisResult.stageId;
+                      const isPast = stg.id < analysisResult.stageId;
+
+                      return (
+                        <div 
+                          key={stg.id}
+                          className="flex flex-col items-center text-center"
+                        >
+                          {/* Khối nốt tròn với chiều cao cố định để track line đi đúng tâm */}
+                          <div className="relative h-12 sm:h-14 flex items-center justify-center">
+                            {/* Tag nổi bật 'Trái của bạn' phía trên nốt đang chọn */}
+                            {isCurrent && (
+                              <motion.div 
+                                initial={{ y: 5, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                className="absolute -top-6 sm:-top-7 left-1/2 -translate-x-1/2 whitespace-nowrap px-2 py-0.5 rounded-full bg-brown-dark text-primary-200 text-[10px] sm:text-[11px] font-black shadow-md border border-primary-400 flex items-center gap-1 z-20"
+                              >
+                                <span>🍌</span>
+                                <span className="hidden xs:inline sm:inline">Trái của bạn</span>
+                                <span className="xs:hidden sm:hidden">Ở đây</span>
+                              </motion.div>
+                            )}
+
+                            <div
+                              className={`flex items-center justify-center font-display font-black transition-all duration-300 rounded-2xl ${
+                                isCurrent
+                                  ? 'w-10 h-10 sm:w-12 sm:h-12 text-base sm:text-xl text-white shadow-lg ring-4 ring-offset-2 ring-leaf/40 scale-110 z-10'
+                                  : isPast
+                                  ? 'w-8 h-8 sm:w-10 sm:h-10 text-xs sm:text-sm bg-white border-2 border-leaf text-leaf shadow-sm'
+                                  : 'w-8 h-8 sm:w-10 sm:h-10 text-xs sm:text-sm bg-white/80 border-2 border-primary-200 text-brown/40'
+                              }`}
+                              style={
+                                isCurrent
+                                  ? {
+                                      backgroundColor: stg.color || '#2E7D32',
+                                      boxShadow: `0 8px 16px -2px ${stg.color}50`,
+                                    }
+                                  : undefined
+                              }
+                            >
+                              {isPast ? (
+                                <CheckCircle2 size={16} className="text-leaf sm:w-5 sm:h-5" />
+                              ) : (
+                                <span>{stg.id}</span>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Nhãn văn bản dưới nốt */}
+                          <div className="mt-2 sm:mt-2.5 flex flex-col items-center">
+                            <span
+                              className={`transition-all text-center leading-tight ${
+                                isCurrent
+                                  ? 'font-display font-black text-xs sm:text-sm text-brown-dark'
+                                  : isPast
+                                  ? 'font-bold text-[11px] sm:text-xs text-brown/80'
+                                  : 'font-medium text-[11px] sm:text-xs text-brown/40'
+                              }`}
+                            >
+                              <span className="block font-bold text-[10px] sm:text-[11px] uppercase tracking-wider text-brown/60">
+                                GĐ {stg.id}
+                              </span>
+                              <span className="hidden sm:inline font-bold">
+                                {stg.name}
+                              </span>
+                              <span className="sm:hidden font-bold">
+                                {stg.id === 1 ? 'Non' : stg.id === 2 ? 'Xanh' : stg.id === 3 ? 'Bắt đầu chín' : stg.id === 4 ? 'Chín' : 'Chín kỹ'}
+                              </span>
+                            </span>
+
+                            {/* Badge 'Tô đậm' xác nhận giai đoạn hiện tại */}
+                            {isCurrent && (
+                              <span 
+                                className="mt-1 px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-extrabold text-white shadow-xs tracking-wide uppercase"
+                                style={{ backgroundColor: stg.color || '#2E7D32' }}
+                              >
+                                Đang ở đây
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
             )}
           </div>
 
-          {/* Cảnh báo Fallback (nếu API có sự cố và chuyển sang mock) */}
+          {/* Lời nhắn thân thiện nếu có */}
           {analysisResult.fallbackNotice && (
             <div className="p-4 rounded-2xl bg-amber-50 border border-amber-300 text-amber-800 text-xs sm:text-sm flex items-start gap-3">
-              <Info size={18} className="shrink-0 mt-0.5 text-amber-600" />
+              <Sparkles size={18} className="shrink-0 mt-0.5 text-amber-600" />
               <div>
-                <p className="font-bold">Thông báo chế độ dự phòng:</p>
+                <p className="font-bold">Lời nhắn từ Trợ Lý BANANA GO:</p>
                 <p>{analysisResult.fallbackNotice}</p>
               </div>
             </div>

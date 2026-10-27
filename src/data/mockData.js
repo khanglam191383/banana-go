@@ -1,5 +1,5 @@
 /**
- * Dữ liệu mẫu (Mock Data) toàn diện cho hệ sinh thái CHUỐI ƠI
+ * Dữ liệu mẫu (Mock Data) toàn diện cho hệ sinh thái BANANA GO
  * Bao gồm:
  * - 6 giai đoạn vòng đời chuối (Kèm các điểm chú thích giải phẫu sinh học Hotspot Pins để zoom)
  * - 56 món ăn từ chuối (Đầy đủ Chay, Mặn, Ngọt với ảnh liên quan chuẩn mực)
@@ -193,7 +193,7 @@ export const BANANA_LIFECYCLE_STAGES = [
     bgBadge: 'bg-orange-100 text-orange-800 border-orange-300',
     image: '/lifecycle/stage6.jpg',
     description: 'Từ chuối sống đến chuối chín, người Việt sáng tạo nên hàng trăm món ngon nức tiếng: Chuối nướng nếp than, chè chuối, ốc chuối đậu, bánh chuối dẻo thơm.',
-    details: 'Chuối tây chuối ta, món gì cũng có! Khám phá ngay kho 50+ món ăn độc quyền cùng Chuối Ơi.',
+    details: 'Chuối tây chuối ta, món gì cũng có! Khám phá ngay kho 50+ món ăn độc quyền cùng BANANA GO.',
     linkTo: '/recipes',
     hotspots: [
       {
@@ -1835,7 +1835,7 @@ export const MOCK_COMMUNITY_POSTS = [
       joinDate: 'Tháng 12/2023',
     },
     createdAt: '2 giờ trước',
-    content: 'Hôm nay trời mưa rả rích, làm ngay mẻ chuối nướng nếp than nước cốt dừa theo công thức của Chuối Ơi. Vỏ nếp giòn tan, nước dừa béo ngậy đậu phộng thơm phức cả xóm ai cũng khen nức nở! 🍌🥥 Ai muốn học bí quyết nướng nếp không bị khô thì cmt em chỉ nha!',
+    content: 'Hôm nay trời mưa rả rích, làm ngay mẻ chuối nướng nếp than nước cốt dừa theo công thức của BANANA GO. Vỏ nếp giòn tan, nước dừa béo ngậy đậu phộng thơm phức cả xóm ai cũng khen nức nở! 🍌🥥 Ai muốn học bí quyết nướng nếp không bị khô thì cmt em chỉ nha!',
     image: '/community/post_chuoi_nuong.jpg',
     tags: ['Chuối nướng', 'Chuối chín', 'Món ngọt'],
     reactions: { like: 48, love: 125, yummy: 92, haha: 2, wow: 15, sad: 0 },
@@ -1888,7 +1888,7 @@ export const MOCK_COMMUNITY_POSTS = [
       joinDate: 'Tháng 2/2024',
     },
     createdAt: '1 ngày trước',
-    content: 'Đừng vứt chuối chín đốm nâu đi nha cả nhà ơi! Dùng tính năng quét AI của Chuối Ơi nó báo chuối đạt độ mật cao nhất, mang đi làm bánh chuối yến mạch nướng thơm lừng cả gian bếp. Không một hạt đường kính mà bánh vẫn ngọt đậm tự nhiên siêu thích! 🥧✨',
+    content: 'Đừng vứt chuối chín đốm nâu đi nha cả nhà ơi! Dùng tính năng quét AI của BANANA GO nó báo chuối đạt độ mật cao nhất, mang đi làm bánh chuối yến mạch nướng thơm lừng cả gian bếp. Không một hạt đường kính mà bánh vẫn ngọt đậm tự nhiên siêu thích! 🥧✨',
     image: '/community/post_banhchuoi_oat.jpg',
     tags: ['Eat-Clean', 'Bánh chuối yến mạch', 'AI Chuối'],
     reactions: { like: 92, love: 110, yummy: 45, haha: 5, wow: 34, sad: 0 },
@@ -1940,7 +1940,7 @@ export const MOCK_TEAM_MEMBERS = [
     name: 'Hải Đăng',
     role: 'Quản Trị Cộng Đồng & Content Lead',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
-    quote: 'Cộng đồng Chuối Ơi không chỉ là nơi chia sẻ công thức, đó là ngôi nhà của sự ấm áp và sẻ chia.',
+    quote: 'Cộng đồng BANANA GO không chỉ là nơi chia sẻ công thức, đó là ngôi nhà của sự ấm áp và sẻ chia.',
     social: { facebook: '#', youtube: '#' },
     highlightBadge: 'Community Hero 🌟',
   },

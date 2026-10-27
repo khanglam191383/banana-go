@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 
 /**
- * Trang Đăng Nhập CHUỐI ƠI
+ * Trang Đăng Nhập BANANA GO
  * Giao diện 2 cột: Cột trái minh họa linh vật chuối, cột phải là form đăng nhập kèm nút thử nghiệm 1-chạm
  */
 const LoginPage = () => {
@@ -42,7 +42,7 @@ const LoginPage = () => {
     try {
       const res = await login(email, password);
       if (res.success) {
-        success(`Chào mừng ${res.user.fullName} đã trở lại với Chuối Ơi! 🍌`);
+        success(`Chào mừng ${res.user.fullName} đã trở lại với BANANA GO! 🍌`);
         navigate(from, { replace: true });
       } else {
         setFormError(res.message || 'Email hoặc mật khẩu không chính xác!');
@@ -100,7 +100,7 @@ const LoginPage = () => {
             <div className="w-44 h-44 sm:w-52 sm:h-52 rounded-full bg-white/40 p-4 backdrop-blur-sm border-4 border-white shadow-banana flex items-center justify-center">
               <img
                 src="/logo.png"
-                alt="Linh vật Chuối Ơi nháy mắt"
+                alt="Linh vật BANANA GO nháy mắt"
                 className="w-full h-full object-contain"
               />
             </div>
@@ -124,7 +124,7 @@ const LoginPage = () => {
               Đăng Nhập
             </h1>
             <p className="text-brown/70 text-sm">
-              Điền thông tin tài khoản Chuối Ơi của bạn
+              Điền thông tin tài khoản BANANA GO của bạn
             </p>
           </div>
 

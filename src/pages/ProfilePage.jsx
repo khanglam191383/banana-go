@@ -28,7 +28,7 @@ const ProfilePage = () => {
 
   // Huy hiệu thành viên
   const badges = [
-    { title: 'Tân Binh Chuối Con 🍌', desc: 'Gia nhập đại gia đình Chuối Ơi', date: 'Tháng 1/2024', unlocked: true },
+    { title: 'Tân Binh Chuối Con 🍌', desc: 'Gia nhập đại gia đình BANANA GO', date: 'Tháng 1/2024', unlocked: true },
     { title: 'Đầu Bếp Siêu Đẳng 🍳', desc: 'Nấu thành công trên 10 món chuối', date: 'Tháng 2/2024', unlocked: true },
     { title: 'Chuyên Gia AI Quét Chuối 🤖', desc: 'Thực hiện 20 lượt quét ảnh', date: 'Tháng 3/2024', unlocked: true },
     { title: 'Đại Sứ Chuối Vàng ⭐', desc: 'Đóng góp 50 bài chia sẻ cộng đồng', desc2: 'Cần thêm 38 bài nữa', unlocked: false },

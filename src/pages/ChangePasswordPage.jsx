@@ -79,7 +79,7 @@ const ChangePasswordPage = () => {
             Đổi Mật Khẩu
           </h1>
           <p className="text-xs text-brown/60 mt-1">
-            Hãy đổi mật khẩu định kỳ để bảo vệ tài khoản thành viên Chuối Ơi của bạn
+            Hãy đổi mật khẩu định kỳ để bảo vệ tài khoản thành viên BANANA GO của bạn
           </p>
         </div>
 

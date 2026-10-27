@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 
 /**
- * Trang Đăng Ký Tài Khoản CHUỐI ƠI
+ * Trang Đăng Ký Tài Khoản BANANA GO
  * Giao diện 2 cột: Cột trái minh họa linh vật, cột phải là form đăng ký với validation tiếng Việt chi tiết
  */
 const RegisterPage = () => {
@@ -71,7 +71,7 @@ const RegisterPage = () => {
     try {
       const res = await register(fullName.trim(), email.trim(), password);
       if (res.success) {
-        success(res.message || 'Chúc mừng bạn đã gia nhập đại gia đình Chuối Ơi! 🍌');
+        success(res.message || 'Chúc mừng bạn đã gia nhập đại gia đình BANANA GO! 🍌');
         navigate('/', { replace: true });
       } else {
         error(res.message || 'Đăng ký không thành công!');
@@ -97,7 +97,7 @@ const RegisterPage = () => {
               🍌 Tham gia hoàn toàn miễn phí
             </span>
             <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight">
-              Gia Nhập Chuối Ơi!
+              Gia Nhập BANANA GO!
             </h2>
             <p className="text-white/90 text-sm mt-2 font-medium">
               Kết nối hàng ngàn người yêu thích món ăn từ chuối, lưu công thức độc quyền và trải nghiệm AI nấu ăn.
@@ -113,7 +113,7 @@ const RegisterPage = () => {
             <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-full bg-white/90 p-4 border-4 border-primary-300 shadow-leaf flex items-center justify-center">
               <img
                 src="/logo.png"
-                alt="Linh vật Chuối Ơi"
+                alt="Linh vật BANANA GO"
                 className="w-full h-full object-contain"
               />
             </div>
@@ -143,7 +143,7 @@ const RegisterPage = () => {
               Đăng Ký Tài Khoản
             </h1>
             <p className="text-brown/70 text-sm">
-              Trở thành thành viên của ngôi nhà Chuối Ơi hôm nay
+              Trở thành thành viên của ngôi nhà BANANA GO hôm nay
             </p>
           </div>
 
@@ -256,7 +256,7 @@ const RegisterPage = () => {
                 <span>
                   Tôi đã đọc và đồng ý với{' '}
                   <span className="text-leaf font-bold hover:underline">Điều khoản dịch vụ</span>{' '}
-                  và <span className="text-leaf font-bold hover:underline">Chính sách bảo mật</span> của Chuối Ơi.
+                  và <span className="text-leaf font-bold hover:underline">Chính sách bảo mật</span> của BANANA GO.
                 </span>
               </label>
               {errors.agreeTerms && (

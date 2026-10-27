@@ -170,7 +170,7 @@ const RecipesPage = () => {
       {/* ==================== 1. HEADER TRANG MẸO NẤU ĂN ==================== */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
         <span className="badge-tag bg-primary-100 text-brown border border-primary-300 text-xs">
-          📖 Kho tàng ẩm thực Chuối Ơi
+          📖 Kho tàng ẩm thực BANANA GO
         </span>
         <h1 className="font-display font-extrabold text-4xl sm:text-5xl text-brown-dark">
           Kho 56+ Món Ngon Từ Chuối
