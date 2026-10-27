@@ -105,7 +105,7 @@ const AboutPage = () => {
 
             <div className="p-4 rounded-2xl bg-cream border border-primary-200 text-xs sm:text-sm font-bold text-brown flex items-center gap-2">
               <span className="text-xl">🍌</span>
-              <span>"Chuối tây chuối ta, món gì cũng có" — Tinh hoa ẩm thực không phân biệt loại chuối.</span>
+              <span>"Ngọt từ vị, dẻo từ tâm" — Tinh hoa ẩm thực không phân biệt loại chuối.</span>
             </div>
           </div>
 

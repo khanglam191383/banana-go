@@ -112,7 +112,7 @@ const LoginPage = () => {
 
           <div className="relative z-10 w-full bg-white/60 backdrop-blur-sm rounded-2xl p-3 border border-white/80">
             <p className="text-xs text-brown/70 font-semibold">
-              "Chuối tây chuối ta, món gì cũng có"
+              "Ngọt từ vị, dẻo từ tâm"
             </p>
           </div>
         </div>

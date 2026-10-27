@@ -84,7 +84,7 @@ const Navbar = () => {
               <span className="w-2.5 h-2.5 rounded-full bg-primary-500 animate-ping hidden sm:inline-block"></span>
             </div>
             <span className="text-[11px] sm:text-xs font-bold text-brown/70 leading-tight">
-              Chuối tây chuối ta, món gì cũng có
+              Ngọt từ vị, dẻo từ tâm
             </span>
           </div>
         </Link>

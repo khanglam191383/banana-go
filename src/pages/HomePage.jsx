@@ -131,7 +131,7 @@ const HomePage = () => {
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 border-2 border-primary-300 shadow-sm">
                 <span className="w-2.5 h-2.5 rounded-full bg-leaf animate-ping"></span>
                 <span className="font-display font-extrabold text-xs sm:text-sm text-leaf">
-                  🍌 Chuối tây chuối ta, món gì cũng có!
+                  🍌 Ngọt từ vị, dẻo từ tâm!
                 </span>
               </div>
 

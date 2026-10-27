@@ -53,7 +53,7 @@ const Footer = () => {
                   BANANA GO
                 </span>
                 <span className="block text-xs font-bold text-brown/70">
-                  Chuối tây chuối ta, món gì cũng có
+                  Ngọt từ vị, dẻo từ tâm
                 </span>
               </div>
             </Link>

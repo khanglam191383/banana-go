@@ -193,7 +193,7 @@ export const BANANA_LIFECYCLE_STAGES = [
     bgBadge: 'bg-orange-100 text-orange-800 border-orange-300',
     image: '/lifecycle/stage6.jpg',
     description: 'Từ chuối sống đến chuối chín, người Việt sáng tạo nên hàng trăm món ngon nức tiếng: Chuối nướng nếp than, chè chuối, ốc chuối đậu, bánh chuối dẻo thơm.',
-    details: 'Chuối tây chuối ta, món gì cũng có! Khám phá ngay kho 50+ món ăn độc quyền cùng BANANA GO.',
+    details: 'Ngọt từ vị, dẻo từ tâm! Khám phá ngay kho 50+ món ăn độc quyền cùng BANANA GO.',
     linkTo: '/recipes',
     hotspots: [
       {
