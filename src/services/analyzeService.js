@@ -41,7 +41,7 @@ export async function analyzeBananaImage(imageInput, options = {}) {
   const {
     forceDemoMode = false,
     demoStageId = 3,
-    enableFallback = true,
+    enableFallback = false, // Mặc định không fallback sang giai đoạn giả khi AI bận, để tránh báo sai giai đoạn
   } = options;
 
   // 1. Nếu người dùng chủ động chọn "Chế độ Demo" -> Dùng mock fixture trực tiếp

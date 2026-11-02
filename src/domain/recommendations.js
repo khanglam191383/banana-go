@@ -59,19 +59,9 @@ export function getRecommendedDishes(stageId, options = {}) {
     };
   }
 
-  // Trường hợp 2: Giai đoạn 1 (Chuối non) -> 0 món thương phẩm
-  if (numericStageId === 1) {
-    const stage1Mapping = getStageDishMapping(1);
-    return {
-      dishes: [],
-      count: 0,
-      stageId: 1,
-      notice: stage1Mapping.traditionalNotice,
-      isBlockedByQualityWarning: false,
-    };
-  }
+  // Trường hợp 2: Tra cứu bảng ánh xạ cho tất cả các giai đoạn (1 đến 6)
 
-  // Trường hợp 3: Tra cứu bảng ánh xạ cho các giai đoạn 2 đến 6
+  // Trường hợp 2: Tra cứu bảng ánh xạ món ăn theo giai đoạn
   const mapping = getStageDishMapping(numericStageId);
   const candidateDishes = mapping.dishes || [];
 

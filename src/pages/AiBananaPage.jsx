@@ -26,12 +26,39 @@ const AiBananaPage = () => {
   const { success, error, info } = useToast();
 
   const [selectedFile, setSelectedFile] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(() => {
+    try {
+      return sessionStorage.getItem('bananago_last_image') || null;
+    } catch {
+      return null;
+    }
+  });
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisProgress, setAnalysisProgress] = useState(0);
-  const [analysisResult, setAnalysisResult] = useState(null);
+  const [analysisResult, setAnalysisResult] = useState(() => {
+    try {
+      const cached = sessionStorage.getItem('bananago_last_analysis');
+      return cached ? JSON.parse(cached) : null;
+    } catch {
+      return null;
+    }
+  });
   const [analysisError, setAnalysisError] = useState(null);
   const [activeTab, setActiveTab] = useState('all'); // 'all' | 'vegetarian' | 'savory' | 'sweet'
+
+  // Xóa ảnh và dọn bộ nhớ đệm
+  const handleClearImage = () => {
+    setSelectedImage(null);
+    setSelectedFile(null);
+    setAnalysisResult(null);
+    setAnalysisError(null);
+    try {
+      sessionStorage.removeItem('bananago_last_image');
+      sessionStorage.removeItem('bananago_last_analysis');
+    } catch {
+      // ignore
+    }
+  };
 
   // Xử lý chọn tệp ảnh với kiểm thực Client-side
   const handleFileChange = (e) => {
@@ -50,6 +77,12 @@ const AiBananaPage = () => {
     reader.onload = () => {
       setSelectedImage(reader.result);
       setAnalysisResult(null);
+      try {
+        sessionStorage.setItem('bananago_last_image', reader.result);
+        sessionStorage.removeItem('bananago_last_analysis');
+      } catch {
+        // ignore
+      }
     };
     reader.readAsDataURL(file);
   };
@@ -76,15 +109,30 @@ const AiBananaPage = () => {
     }, 200);
 
     try {
-      const res = await analyzeBananaImage(input, options);
+      const res = await analyzeBananaImage(input, { enableFallback: false, ...options });
       clearInterval(interval);
       setAnalysisProgress(100);
 
       setTimeout(() => {
         setIsAnalyzing(false);
-        setAnalysisResult(res);
-        setAnalysisError(null);
-        success('Trợ lý AI đã hoàn tất nhận diện trái chuối! 🍌');
+        // Khi AI bận hoặc không xác định được giai đoạn, tuyệt đối không hiển thị giai đoạn giả lập
+        if (!res?.stageId || (res?.fallbackNotice && res.fallbackNotice.includes('bận'))) {
+          setAnalysisResult(null);
+          const busyMsg =
+            res?.fallbackNotice ||
+            'Trợ lý AI đang có nhiều bạn quét cùng lúc nên hơi bận một chút xíu. Bạn đợi vài giây rồi thử quét lại nhé! 🍌';
+          setAnalysisError(busyMsg);
+          error(busyMsg);
+        } else {
+          setAnalysisResult(res);
+          setAnalysisError(null);
+          try {
+            sessionStorage.setItem('bananago_last_analysis', JSON.stringify(res));
+          } catch {
+            // ignore
+          }
+          success('Trợ lý AI đã hoàn tất nhận diện trái chuối! 🍌');
+        }
       }, 350);
     } catch (err) {
       clearInterval(interval);
@@ -146,11 +194,7 @@ const AiBananaPage = () => {
                 {/* Nút xóa ảnh */}
                 <button
                   type="button"
-                  onClick={() => {
-                    setSelectedImage(null);
-                    setSelectedFile(null);
-                    setAnalysisResult(null);
-                  }}
+                  onClick={handleClearImage}
                   className="absolute top-4 right-4 p-2 rounded-full bg-brown/70 text-white hover:bg-brown shadow-md"
                   title="Chọn ảnh khác"
                 >
@@ -296,12 +340,7 @@ const AiBananaPage = () => {
             </button>
             <button
               type="button"
-              onClick={() => {
-                setAnalysisError(null);
-                setSelectedImage(null);
-                setSelectedFile(null);
-                setAnalysisResult(null);
-              }}
+              onClick={handleClearImage}
               className="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-white text-brown-dark border border-amber-300 hover:bg-amber-100/50 transition active:scale-95"
             >
               Đổi ảnh khác
@@ -311,7 +350,7 @@ const AiBananaPage = () => {
       )}
 
       {/* ==================== 3. KẾT QUẢ PHÂN TÍCH AI HOÀN CHỈNH ==================== */}
-      {analysisResult && (
+      {analysisResult && analysisResult.stageId && (
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -622,13 +661,13 @@ const AiBananaPage = () => {
                   🌱 Lời khuyên nông học từ BananaGo:
                 </p>
                 <p className="text-xs sm:text-sm text-emerald-800 max-w-xl mx-auto leading-relaxed">
-                  Quả chuối non chưa phát triển thịt và chứa nhiều mủ chát, BananaGo không khuyến khích thu hoạch thương phẩm (0 món đề xuất). Hãy giữ buồng trên cây để chuối đạt năng suất và giá trị kinh tế trọn vẹn nhất!
+                  Quả chuối non tốt nhất nên tiếp tục chăm sóc trên cây để đạt năng suất kinh tế tối ưu. Tuy nhiên, nếu bạn tỉa bớt quả non khi tạo dáng buồng, dưới đây là các món ăn dân dã tận dụng tuyệt hảo:
                 </p>
               </div>
             )}
 
             {/* Các Tab lọc danh mục */}
-            {analysisResult.stageId !== 1 && allRecommendedDishes.length > 0 && (
+            {allRecommendedDishes.length > 0 && (
               <div className="flex flex-wrap gap-2 border-b border-primary-200 pb-2">
                 {[
                   { id: 'all', label: 'Tất cả món' },
@@ -653,8 +692,7 @@ const AiBananaPage = () => {
             )}
 
             {/* Lưới card món gợi ý */}
-            {analysisResult.stageId !== 1 && (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {tabDishes.length > 0 ? (
                   tabDishes.map((dish) => (
                     <div
@@ -690,6 +728,7 @@ const AiBananaPage = () => {
                       <div className="p-4 pt-0">
                         <Link
                           to={`/recipes?recipe=${dish.id}`}
+                          state={{ from: '/ai' }}
                           className="btn-primary w-full py-2 text-xs"
                         >
                           Xem công thức chi tiết
@@ -703,7 +742,6 @@ const AiBananaPage = () => {
                   </div>
                 )}
               </div>
-            )}
           </div>
 
         </motion.div>

@@ -13,7 +13,8 @@ import {
   Facebook, 
   Github, 
   Linkedin,
-  ArrowRight
+  ArrowRight,
+  Crown
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { MOCK_TEAM_MEMBERS } from '../data/mockData';
@@ -24,7 +25,7 @@ const AboutPage = () => {
     {
       year: 'Quý 3/2023',
       title: 'Ý Tưởng Bắt Nguồn Từ Gian Bếp Quê',
-      desc: 'Nhận thấy buồng chuối chín ở quê thường không kịp ăn hết và bị bỏ phí, Hoàng Khang cùng đội ngũ nung nấu ý tưởng tạo ra một siêu ứng dụng kết nối ẩm thực chuối toàn diện.',
+      desc: 'Nhận thấy buồng chuối chín ở quê thường không kịp ăn hết và bị bỏ phí, đội ngũ sáng lập BANANA GO cùng nhau nung nấu ý tưởng tạo ra một siêu ứng dụng kết nối ẩm thực chuối toàn diện.',
     },
     {
       year: 'Quý 4/2023',
@@ -83,7 +84,7 @@ const AboutPage = () => {
 
 
       {/* ==================== 2. CÂU CHUYỆN & SỨ MỆNH ==================== */}
-      <section className="container mx-auto px-4 lg:px-8">
+      <section className="container mx-auto px-4 lg:px-8 -mt-10 sm:-mt-14 lg:-mt-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
           
           {/* Card Câu chuyện & Vấn đề giải quyết */}
@@ -153,7 +154,7 @@ const AboutPage = () => {
       </section>
 
 
-      {/* ==================== 3. DANH SÁCH 5 THÀNH VIÊN SÁNG LẬP ==================== */}
+      {/* ==================== 3. DANH SÁCH 6 THÀNH VIÊN SÁNG LẬP ==================== */}
       <section className="container mx-auto px-4 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
           <span className="badge-tag bg-primary-100 text-brown border border-primary-300 text-xs">
@@ -163,20 +164,36 @@ const AboutPage = () => {
             ĐỘI NGŨ SÁNG LẬP
           </h2>
           <p className="text-brown/70 text-sm sm:text-base">
-            Gặp gỡ 5 thành viên trẻ trung, đam mê công nghệ và yêu văn hóa ẩm thực Việt đứng sau thành công của BANANA GO.
+            Gặp gỡ 6 thành viên trẻ trung, đam mê công nghệ và yêu văn hóa ẩm thực Việt đứng sau thành công của BANANA GO.
           </p>
         </div>
 
-        {/* Lưới 5 thành viên */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        {/* Lưới 6 thành viên sáng lập: 3 cột trên desktop, 2 cột trên tablet, 1 cột trên mobile */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {MOCK_TEAM_MEMBERS.map((member) => (
             <div
               key={member.id}
-              className="bg-white rounded-3xl p-6 border-2 border-primary-200 shadow-card hover:shadow-pop hover:border-primary-400 transition-all duration-300 flex flex-col justify-between items-center text-center group"
+              className={`rounded-3xl p-6 sm:p-7 border-2 transition-all duration-300 flex flex-col justify-between items-center text-center group relative ${
+                member.isLeader
+                  ? 'bg-gradient-to-b from-amber-50/50 via-white to-white border-amber-300/90 shadow-soft hover:shadow-pop hover:border-amber-400'
+                  : 'bg-white border-primary-200 shadow-card hover:shadow-pop hover:border-primary-400'
+              }`}
             >
-              <div className="space-y-4 flex flex-col items-center">
+              {/* Huy hiệu nhận diện Leader tinh tế, nổi bật trang nhã */}
+              {member.isLeader && (
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 via-primary to-amber-400 text-brown-dark font-display font-extrabold text-[11px] uppercase tracking-wider shadow-sm flex items-center gap-1.5 border border-amber-300">
+                  <Crown size={12} className="text-brown-dark fill-brown-dark" />
+                  <span>Team Leader</span>
+                </div>
+              )}
+
+              <div className="space-y-4 flex flex-col items-center w-full">
                 {/* Ảnh đại diện */}
-                <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-primary-300 shadow-inner group-hover:scale-105 transition-transform">
+                <div className={`relative w-24 h-24 rounded-full overflow-hidden border-4 shadow-inner group-hover:scale-105 transition-transform ${
+                  member.isLeader
+                    ? 'border-amber-300 ring-2 ring-amber-200/70'
+                    : 'border-primary-300'
+                }`}>
                   <img
                     src={member.avatar}
                     alt={member.name}
@@ -184,34 +201,42 @@ const AboutPage = () => {
                   />
                 </div>
 
-                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-secondary-100 text-leaf">
+                {/* Huy hiệu vai trò */}
+                <span className={`text-[11px] font-bold px-3 py-0.5 rounded-full inline-flex items-center gap-1 ${
+                  member.isLeader
+                    ? 'bg-amber-100 text-amber-900 border border-amber-200 font-extrabold'
+                    : 'bg-secondary-100 text-leaf border border-secondary-200/60'
+                }`}>
                   {member.highlightBadge}
                 </span>
 
-                <div>
-                  <h4 className="font-display font-extrabold text-lg text-brown-dark leading-tight">
+                <div className="space-y-1">
+                  <h4 className="font-display font-extrabold text-lg sm:text-xl text-brown-dark leading-tight">
                     {member.name}
                   </h4>
-                  <p className="text-xs text-leaf font-bold mt-0.5">
+                  <p className={`text-xs font-bold ${member.isLeader ? 'text-amber-800' : 'text-leaf'}`}>
                     {member.role}
                   </p>
+                  <span className="inline-block text-[11px] font-medium text-brown/65 bg-cream px-2.5 py-0.5 rounded-full border border-primary-200/60">
+                    {member.major}
+                  </span>
                 </div>
 
-                {/* Câu quote */}
-                <p className="text-xs text-brown/70 italic leading-relaxed">
+                {/* Câu quote truyền cảm hứng */}
+                <p className="text-xs text-brown/70 italic leading-relaxed px-2">
                   "{member.quote}"
                 </p>
               </div>
 
               {/* Mạng xã hội */}
               <div className="mt-5 pt-3 border-t border-primary-100 w-full flex justify-center gap-3 text-brown/60">
-                <a href={member.social.facebook || '#'} className="hover:text-leaf transition-colors">
+                <a href={member.social.facebook || 'https://www.facebook.com/share/1CBAgxJHB1/?mibextid=wwXIfr'} target="_blank" rel="noopener noreferrer" className="hover:text-leaf transition-colors" title="Facebook Nhóm BANANA GO">
                   <Facebook size={16} />
                 </a>
-                <a href={member.social.github || '#'} className="hover:text-leaf transition-colors">
+                <a href={member.social.github || '#'} className="hover:text-leaf transition-colors" title="GitHub">
                   <Github size={16} />
                 </a>
-                <a href={member.social.linkedin || '#'} className="hover:text-leaf transition-colors">
+                <a href={member.social.linkedin || '#'} className="hover:text-leaf transition-colors" title="LinkedIn">
                   <Linkedin size={16} />
                 </a>
               </div>
@@ -220,6 +245,7 @@ const AboutPage = () => {
         </div>
       </section>
 
+      
 
       {/* ==================== 4. CÔNG NGHỆ & CỘT MỐC PHÁT TRIỂN ==================== */}
       <section className="bg-white py-16 border-y-2 border-primary-200">

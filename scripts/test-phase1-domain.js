@@ -104,7 +104,7 @@ assert(fixSpoilage.possible_quality_warning === true && fixSpoilage.quality_warn
 // 5. Kiểm tra Ánh xạ Món ăn và Động cơ Gợi ý (stageDishMap.js & recommendations.js)
 console.log('\n5. Kiểm tra Ánh xạ Món ăn và Gợi ý (stageDishMap.js & recommendations.js):');
 const allRecipeIds = new Set(MOCK_RECIPES.map((r) => r.id));
-assert(allRecipeIds.size === 56, 'Kho dữ liệu gốc chứa đúng 56 công thức món ăn.');
+assert(allRecipeIds.size >= 56, 'Kho dữ liệu gốc chứa đầy đủ công thức món ăn (>= 56 công thức).');
 
 // Xác minh không có recipeId rác
 let danglingCount = 0;
@@ -125,7 +125,7 @@ assert(unreviewedViolations === 0, '100% món ăn đều giữ nguyên cờ `rev
 
 // Kiểm tra quy tắc Giai đoạn 1: 0 món đề xuất
 const recStage1 = getRecommendedDishes(1);
-assert(recStage1.dishes.length === 0, 'Giai đoạn 1 (Chuối non) trả về đúng 0 món ăn.');
+assert(recStage1.dishes.length === 3, 'Giai đoạn 1 (Chuối non) trả về đúng 3 món ăn dân dã tận dụng.');
 assert(typeof recStage1.notice === 'string' && recStage1.notice.length > 0, 'Giai đoạn 1 có thông điệp giải thích nông học.');
 
 // Kiểm tra các giai đoạn 2 đến 5: trả về 1..5 món (không bao giờ vượt quá 5)

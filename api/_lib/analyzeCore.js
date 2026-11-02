@@ -143,9 +143,10 @@ export async function analyzeImageCore(body, config = {}) {
   const primaryModel = config.model || process.env.GEMINI_MODEL || DEFAULT_GEMINI_MODEL;
   const candidateModels = Array.from(new Set([
     primaryModel,
-    'gemini-3-flash-preview',
-    'gemini-3.5-flash',
     'gemini-1.5-flash',
+    'gemini-2.0-flash',
+    'gemini-1.5-flash-8b',
+    'gemini-1.5-pro',
   ]));
   const fetchFn = config.fetchFn || globalThis.fetch;
 
@@ -174,9 +175,10 @@ export async function analyzeImageCore(body, config = {}) {
     },
   };
 
-  // 4. Gọi API với Timeout 10 giây (tự động fallback sang model dự phòng nếu 404/503/timeout)
+  // 4. Gọi API với Timeout 10 giây (tự động thử model dự phòng nếu 404/429/503/timeout)
   let response = null;
   let lastErrorText = '';
+  let lastStatusCode = null;
 
   for (const currentModel of candidateModels) {
     const geminiEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(currentModel)}:generateContent?key=${encodeURIComponent(apiKey)}`;
@@ -184,7 +186,7 @@ export async function analyzeImageCore(body, config = {}) {
     const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
 
     try {
-      response = await fetchFn(geminiEndpoint, {
+      const res = await fetchFn(geminiEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -193,12 +195,15 @@ export async function analyzeImageCore(body, config = {}) {
         signal: controller.signal,
       });
 
-      // Nếu model bị 404 (deprecated/chưa hỗ trợ) hoặc 503 (quá tải), thử candidate tiếp theo
-      if (response.status === 404 || response.status === 503) {
-        lastErrorText = await response.text().catch(() => '');
+      // Nếu model bị 404 (chưa hỗ trợ), 429 (hết quota RPM), hoặc 503 (quá tải), thử candidate tiếp theo
+      if (res.status === 404 || res.status === 429 || res.status === 503) {
+        lastStatusCode = res.status;
+        lastErrorText = await res.text().catch(() => '');
         response = null;
         continue;
       }
+
+      response = res;
       break;
     } catch (err) {
       if (err.name === 'AbortError') {
@@ -221,6 +226,18 @@ export async function analyzeImageCore(body, config = {}) {
   }
 
   if (!response) {
+    if (lastStatusCode === 429) {
+      return {
+        status: 429,
+        body: {
+          success: false,
+          error: {
+            code: 'AI_RATE_LIMITED',
+            message: 'Trợ lý AI đang có nhiều bạn quét cùng lúc nên hơi bận một chút xíu. Bạn đợi vài giây rồi thử quét lại nhé! 🍌',
+          },
+        },
+      };
+    }
     return {
       status: 504,
       body: {

@@ -651,7 +651,7 @@ const CommunityPage = () => {
         {reportModalPost && (
           <div 
             onClick={() => setReportModalPost(null)}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-brown-dark/75 backdrop-blur-md"
+            className="fixed inset-0 !m-0 z-[999] flex items-center justify-center p-4 bg-brown-dark/75 backdrop-blur-md"
           >
             <motion.div
               onClick={(e) => e.stopPropagation()}

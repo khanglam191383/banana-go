@@ -189,11 +189,11 @@ const HomePage = () => {
               >
                 <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary-400 to-secondary-300 blur-2xl opacity-70 transform scale-110"></div>
 
-                <div className="relative w-72 h-72 sm:w-84 sm:h-84 lg:w-96 lg:h-96 rounded-full bg-white/70 backdrop-blur-md p-6 border-4 border-white shadow-pop flex items-center justify-center">
+                <div className="relative w-72 h-72 sm:w-84 sm:h-84 lg:w-96 lg:h-96 rounded-full bg-white/70 backdrop-blur-md p-4 sm:p-5 border-4 border-white shadow-pop flex items-center justify-center overflow-visible">
                   <img
-                    src="/logo.png"
-                    alt="Linh vật BANANA GO nháy mắt 3D"
-                    className="w-full h-full object-contain filter drop-shadow-md"
+                    src="/mascot.png"
+                    alt="Linh vật BANANA GO 3D"
+                    className="w-full h-full object-contain filter drop-shadow-lg transform scale-105 hover:scale-110 transition-transform duration-300"
                   />
                 </div>
 
@@ -402,7 +402,7 @@ const HomePage = () => {
               setZoomModalStage(null);
               setActiveHotspotId(null);
             }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-brown-dark/75 backdrop-blur-md overflow-hidden"
+            className="fixed inset-0 !m-0 z-[999] flex items-center justify-center p-3 sm:p-6 bg-brown-dark/75 backdrop-blur-md overflow-hidden"
           >
             <motion.div
               onClick={(e) => e.stopPropagation()}
@@ -829,8 +829,8 @@ const HomePage = () => {
 
           <div className="hidden lg:block absolute right-12 bottom-6 w-56 h-56 animate-float">
             <img
-              src="/logo.png"
-              alt="BANANA GO Mascot"
+              src="/mascot.png"
+              alt="Linh v?t BANANA GO 3D"
               className="w-full h-full object-contain filter drop-shadow-xl"
             />
           </div>

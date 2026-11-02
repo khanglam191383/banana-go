@@ -68,25 +68,17 @@ const Navbar = () => {
       <div className="container mx-auto px-4 lg:px-8 h-20 flex items-center justify-between">
         
         {/* Logo & Slogan */}
-        <Link to="/" className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-primary-400 rounded-2xl p-1">
-          <div className="relative w-12 h-12 sm:w-14 sm:h-14 overflow-hidden rounded-full bg-primary-100 flex items-center justify-center border-2 border-primary-300 shadow-sm group-hover:scale-105 transition-transform duration-300">
-            <img 
-              src="/logo.png" 
-              alt="Logo BANANA GO" 
-              className="w-full h-full object-contain"
-            />
-          </div>
-          <div className="flex flex-col">
-            <div className="flex items-center gap-1.5">
-              <span className="font-display font-extrabold text-2xl sm:text-3xl text-leaf tracking-tight leading-none group-hover:text-leaf-dark transition-colors">
-                BANANA GO
-              </span>
-              <span className="w-2.5 h-2.5 rounded-full bg-primary-500 animate-ping hidden sm:inline-block"></span>
-            </div>
-            <span className="text-[11px] sm:text-xs font-bold text-brown/70 leading-tight">
-              Ngọt từ vị, dẻo từ tâm
-            </span>
-          </div>
+        <Link to="/" className="flex items-center gap-2.5 sm:gap-3 group focus:outline-none focus:ring-2 focus:ring-primary-400 rounded-2xl p-1">
+          <img 
+            src="/logo.png" 
+            alt="Biểu tượng BANANA GO" 
+            className="h-12 sm:h-14 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
+          />
+          <img 
+            src="/brand_text.png" 
+            alt="BANANA GO - Ngọt từ vị, dẻo từ tâm" 
+            className="h-9 sm:h-11 w-auto object-contain"
+          />
         </Link>
 
         {/* Desktop Menu Navigation */}

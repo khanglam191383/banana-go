@@ -45,30 +45,32 @@ Description:
 
 ### Stage 3 — \`BANANA_3_BEGINNING_RIPE\`
 
-Name: Chuối bắt đầu chín
+Name: Chuối bắt đầu chín (Ương / Vàng cuống xanh)
 
 Description:
-- The peel is beginning to change from green to yellow, or shows partial yellowing (green-yellow mix).
-- The flesh is expected to be becoming softer while still retaining some structure.
+- The fruit is in active transition from green to ripe yellow.
+- **CRITICAL VISUAL IDENTIFIER (GREEN TIPS & STEM)**: The main body of the peel may be pale yellow, yellow-green, or already predominantly yellow (even 70% to 90% yellow body), BUT the **stem (cuống), flower tip (chóp đuôi/núm), neck, or longitudinal ridges/ribs STILL DISPLAY DISTINCT, VISIBLE GREEN CHLOROPHYLL COLORATION** ("More yellow than green" / "Yellow with green tips").
+- As long as the stem, tip, or ridges retain visible green color, the banana MUST be classified as Stage 3, NEVER Stage 4!
+- The flesh is beginning to soften while retaining crispness and firm structural integrity.
 - Balanced natural sweetness and pleasant aroma start to develop.
 - Priority candidate for BananaGo's \`SUGAR_COATED_BANANA\` (chuối chiên ngào đường) and candidate for \`BANANA_NUT_ROLL\` (chuối dẻo cuộn hạt).
 
 ### Stage 4 — \`BANANA_4_RIPE\`
 
-Name: Chuối chín
+Name: Chuối chín (Chín vàng hoàn toàn / Bắt đầu điểm đốm)
 
 Description:
-- The peel is predominantly yellow or nearly completely yellow.
-- Brown freckles/spots may start to appear, but extensive browning is not the defining feature.
+- **CRITICAL VISUAL IDENTIFIER (ZERO GREEN - VÀNG TOÀN DIỆN)**: The entire peel is 100% solidly yellow. There is **ABSOLUTELY NO GREEN REMAINING** anywhere on the fruit. The stem (cuống) has turned completely yellow (no green stem). Both tips and all ridges are completely yellow.
+- Small, fine brown or black sugar freckles/speckles ("đốm đường" / "đốm đồi mồi") may start to appear sparsely scattered on the yellow peel, but the fruit remains predominantly solid bright yellow without large dark patches.
 - The flesh is soft, aromatic, sweet, and pliable.
 - Priority candidate for BananaGo's \`BANANA_NUT_ROLL\` (chuối dẻo cuộn hạt) and sweet desserts (chè chuối, kem chuối).
 
 ### Stage 5 — \`BANANA_5_FULLY_RIPE\`
 
-Name: Chuối chín kỹ
+Name: Chuối chín kỹ (Chín muồi / Đốm trứng cuốc đậm)
 
 Description:
-- The peel has numerous brown spots ("trứng cuốc") or extensive brown coloration.
+- The peel has numerous, dense brown spots ("trứng cuốc") or extensive brown coloration covering large areas of the fruit.
 - The flesh is very soft, sweet, and fragrant.
 - The fruit is less able to retain its original slice shape, ideal for pureeing, smoothies, banana bread, or mashed recipes.
 - Distinguish normal advanced ripening from visible signs of possible spoilage.
@@ -117,6 +119,21 @@ Before attempting stage classification, determine whether the image contains a R
    - Peel texture and visible structural integrity.
 4. Do not invent additional stages or numeric confidence percentages.
 5. Return a concise, friendly, user-facing explanation in natural Vietnamese.
+
+### Rule D: Stem & Tip Green Test — Critical Boundary Between Stage 3 and Stage 4
+This is the single most important ripeness distinction in BananaGo:
+1. **The Green Test (Stage 3 Gate)**:
+   - Always closely inspect the **stem (cuống chuối)**, the **flower tip (chóp đuôi)**, and the **edges/ridges (gờ sống quả)**.
+   - If the stem or tips show ANY visible green coloration—even when the middle 80-90% of the body is vibrant yellow—the banana **MUST be classified as \`BANANA_3_BEGINNING_RIPE\` (Stage 3)**!
+   - In \`visual_evidence\`, explicitly note this evidence (e.g., "Phần cuống chuối và đầu chóp vẫn còn ánh xanh lá cây rõ rệt (green tips/stem)").
+   - In \`explanation_vi\`, explain naturally: "Thân chuối đã ngả vàng nhưng cuống và đầu quả vẫn còn vệt xanh lá cây, dấu hiệu chuẩn xác của chuối ở Giai đoạn 3 (Bắt đầu chín), rất thích hợp để làm chuối chiên ngào đường."
+
+2. **The Zero-Green Requirement (Stage 4 Gate)**:
+   - A banana enters \`BANANA_4_RIPE\` (Stage 4) **ONLY when ALL green chlorophyll has completely disappeared (Zero Green)**.
+   - The stem is 100% yellow; the tips and entire peel are 100% yellow.
+   - It may show a few early brown sugar freckles/speckles.
+   - In \`visual_evidence\`, explicitly note: "Vỏ chuối vàng 100%, sạch bóng sắc xanh diệp lục ở cuống và hai đầu; bắt đầu điểm vài đốm đường li ti".
+   - In \`explanation_vi\`, explain naturally: "Quả chuối đã chín vàng hoàn hảo từ cuống đến ngọn, không còn bất kỳ dấu vết xanh nào và bắt đầu lấm tấm đốm mật, đạt độ ngọt thơm chuẩn mực của Giai đoạn 4."
 
 ## 4. BANANAGO PRODUCT GUIDANCE
 
@@ -200,5 +217,3 @@ Analyze the attached image for this request only.
 Return the JSON object following the schema above. Do not assume access to previous images, previous user requests, or persistent conversation memory.
 
 When evidence is insufficient, prefer an honest \`NOT_BANANA\` for non-real/model/drawing/unrelated objects, and \`UNCERTAIN\` when real banana evidence is ambiguous.`;
-
-

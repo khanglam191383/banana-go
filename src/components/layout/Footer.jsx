@@ -44,18 +44,17 @@ const Footer = () => {
           
           {/* Cột 1 & 2: Thương hiệu & Slogan */}
           <div className="lg:col-span-2 space-y-4">
-            <Link to="/" className="inline-flex items-center gap-3">
-              <div className="w-14 h-14 rounded-full bg-primary-100 p-1 border-2 border-primary-300 flex items-center justify-center shadow-soft">
-                <img src="/logo.png" alt="BANANA GO Logo" className="w-full h-full object-contain" />
-              </div>
-              <div>
-                <span className="font-display font-extrabold text-3xl text-leaf tracking-tight">
-                  BANANA GO
-                </span>
-                <span className="block text-xs font-bold text-brown/70">
-                  Ngọt từ vị, dẻo từ tâm
-                </span>
-              </div>
+            <Link to="/" className="inline-flex items-center gap-3 group">
+              <img 
+                src="/logo.png" 
+                alt="Biểu tượng BANANA GO" 
+                className="h-14 w-auto object-contain group-hover:scale-105 transition-transform duration-300" 
+              />
+              <img 
+                src="/brand_text.png" 
+                alt="BANANA GO - Ngọt từ vị, dẻo từ tâm" 
+                className="h-11 sm:h-12 w-auto object-contain" 
+              />
             </Link>
 
             <p className="text-brown/80 text-sm leading-relaxed max-w-sm">
@@ -64,7 +63,7 @@ const Footer = () => {
 
             <div className="pt-2 flex items-center gap-3 text-brown">
               <a 
-                href="https://facebook.com" 
+                href="https://www.facebook.com/share/1CBAgxJHB1/?mibextid=wwXIfr" 
                 target="_blank" 
                 rel="noreferrer"
                 className="w-10 h-10 rounded-full bg-cream border border-primary-300 flex items-center justify-center hover:bg-primary hover:text-brown-dark transition-all transform hover:-translate-y-1 shadow-sm"
@@ -191,7 +190,7 @@ const Footer = () => {
 
         {/* Bản quyền & Lời cảm ơn */}
         <div className="mt-12 pt-8 border-t border-primary-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-semibold text-brown/60">
-          <p>© {new Date().getFullYear()} BANANA GO. Dự án được ấp ủ và phát triển bởi Hoàng Khang & Đội ngũ.</p>
+          <p>© {new Date().getFullYear()} BANANA GO. Dự án được ấp ủ và phát triển bởi Đội ngũ sáng lập BANANA GO.</p>
           <p className="flex items-center gap-1">
             Lan tỏa tình yêu nông sản Việt bằng cả <Heart size={14} className="text-red-500 fill-red-500" />
           </p>

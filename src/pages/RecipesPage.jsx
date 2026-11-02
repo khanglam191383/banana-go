@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { createPortal } from 'react-dom';
+import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, 
@@ -44,9 +45,23 @@ const RecipesPage = () => {
   // Checklist nguyên liệu đã chuẩn bị trong modal
   const [checkedIngredients, setCheckedIngredients] = useState({});
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Kiểm tra xem người dùng có phải chuyển sang từ trang Quét AI (/ai) không
+  const isFromAiBanana = Boolean(
+    location.state?.from === '/ai' ||
+    location.state?.from === '/ai-banana' ||
+    searchParams.get('from') === 'ai'
+  );
+
   // Đóng modal và xóa query param ?recipe khỏi URL nếu có
   const handleCloseModal = () => {
     setActiveRecipeModal(null);
+    if (isFromAiBanana) {
+      navigate('/ai');
+      return;
+    }
     if (searchParams.has('recipe')) {
       const nextParams = new URLSearchParams(searchParams);
       nextParams.delete('recipe');
@@ -436,11 +451,12 @@ const RecipesPage = () => {
 
 
       {/* ==================== 4. MODAL CHI TIẾT MÓN ĂN HOÀN CHỈNH ==================== */}
-      <AnimatePresence>
+      {typeof document !== "undefined" && createPortal(
+        <AnimatePresence>
         {activeRecipeModal && (
           <div 
-            onClick={() => setActiveRecipeModal(null)}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-brown-dark/75 backdrop-blur-md overflow-hidden"
+            onClick={handleCloseModal}
+            className="fixed inset-0 !m-0 z-[999] flex items-center justify-center p-3 sm:p-6 bg-brown-dark/75 backdrop-blur-md overflow-hidden"
           >
             <motion.div
               onClick={(e) => e.stopPropagation()}
@@ -473,6 +489,7 @@ const RecipesPage = () => {
                   onClick={handleCloseModal}
                   className="p-2 sm:p-2.5 rounded-full bg-cream hover:bg-primary-100 text-brown hover:text-brown-dark transition-colors shadow-sm shrink-0 border border-primary-200 mt-1"
                   aria-label="Đóng chi tiết"
+                  title={isFromAiBanana ? "Quay lại kết quả AI" : "Đóng chi tiết"}
                 >
                   <X size={20} />
                 </button>
@@ -532,7 +549,9 @@ const RecipesPage = () => {
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    {activeRecipeModal.ingredients.map((ing, idx) => {
+                    {(activeRecipeModal.ingredients || []).map((ing, idx) => {
+                      const ingName = typeof ing === 'object' && ing !== null ? ing.name : String(ing);
+                      const ingAmount = typeof ing === 'object' && ing !== null ? ing.amount : '';
                       const isChecked = !!checkedIngredients[idx];
                       return (
                         <div
@@ -550,11 +569,13 @@ const RecipesPage = () => {
                             }`}>
                               {isChecked && <Check size={14} />}
                             </div>
-                            <span className="text-xs sm:text-sm font-bold">{ing.name}</span>
+                            <span className="text-xs sm:text-sm font-bold">{ingName}</span>
                           </div>
-                          <span className="text-xs font-extrabold text-leaf shrink-0 ml-2">
-                            {ing.amount}
-                          </span>
+                          {ingAmount && (
+                            <span className="text-xs font-extrabold text-leaf shrink-0 ml-2">
+                              {ingAmount}
+                            </span>
+                          )}
                         </div>
                       );
                     })}
@@ -567,7 +588,7 @@ const RecipesPage = () => {
                     Các Bước Thực Hiện
                   </h3>
                   <div className="space-y-3">
-                    {activeRecipeModal.steps.map((st) => (
+                    {(activeRecipeModal.steps || []).map((st, sIdx) => (
                       <div
                         key={st.step}
                         className="p-4 rounded-2xl bg-white border border-primary-150 shadow-sm flex items-start gap-3.5"
@@ -594,13 +615,13 @@ const RecipesPage = () => {
                     <strong className="text-leaf font-display text-sm flex items-center gap-1.5">
                       <Lightbulb size={16} /> Mẹo hay từ đầu bếp:
                     </strong>
-                    <p className="text-brown/80">{activeRecipeModal.tips}</p>
+                    <p className="text-brown/80">{activeRecipeModal.tips || 'Chế biến đúng thời gian để chuối giữ được vị ngon tự nhiên nhất.'}</p>
                   </div>
                   <div className="p-4 rounded-2xl bg-primary-50 border border-primary-200 text-xs sm:text-sm space-y-1">
                     <strong className="text-brown-dark font-display text-sm flex items-center gap-1.5">
                       🍌 Bí quyết chọn chuối:
                     </strong>
-                    <p className="text-brown/80">{activeRecipeModal.bananaSelection}</p>
+                    <p className="text-brown/80">{activeRecipeModal.bananaSelection || 'Chọn quả chuối tươi, vỏ sạch và chắc tay.'}</p>
                   </div>
                 </div>
               </div>
@@ -624,9 +645,9 @@ const RecipesPage = () => {
                   </button>
                   <button
                     onClick={handleCloseModal}
-                    className="px-4 py-2.5 rounded-full bg-white hover:bg-primary-100 text-brown/80 hover:text-brown-dark font-display font-bold text-xs sm:text-sm border border-primary-200 transition-colors"
+                    className="px-4 py-2.5 rounded-full bg-white hover:bg-primary-100 text-brown/80 hover:text-brown-dark font-display font-bold text-xs sm:text-sm border border-primary-200 transition-colors flex items-center gap-1.5"
                   >
-                    Đóng lại
+                    {isFromAiBanana ? '← Quay lại kết quả AI' : 'Đóng lại'}
                   </button>
                 </div>
               </div>
@@ -634,7 +655,9 @@ const RecipesPage = () => {
             </motion.div>
           </div>
         )}
-      </AnimatePresence>
+        </AnimatePresence>,
+        document.body
+      )}
 
     </div>
   );

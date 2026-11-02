@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from '../components/layout/MainLayout';
 import ProtectedRoute from '../components/common/ProtectedRoute';
 
@@ -30,6 +30,7 @@ const AppRoutes = () => {
         <Route path="recipes" element={<RecipesPage />} />
         <Route path="community" element={<CommunityPage />} />
         <Route path="ai" element={<AiBananaPage />} />
+        <Route path="ai-banana" element={<Navigate to="/ai" replace />} />
 
         {/* Các trang xác thực (Auth) */}
         <Route path="login" element={<LoginPage />} />
